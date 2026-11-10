@@ -186,7 +186,7 @@ def main() -> int:
     results["meta"] = {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "git_commit": git_commit(),
-        "command": "uv run python -m evals.retrieval_eval " + " ".join(sys.argv[1:]),
+        "command": " ".join(["uv run python -m evals.retrieval_eval", *sys.argv[1:]]),
         "n_docs": len(load_documents()),
         "n_chunks": len(chunks),
         "n_questions_scored": len(scored),
