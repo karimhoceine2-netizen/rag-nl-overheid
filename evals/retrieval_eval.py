@@ -11,11 +11,11 @@ evals/results/retrieval.md (the table) and evals/results/retrieval_details.jsonl
 
 import argparse
 import json
+import platform
 import statistics
 import subprocess
 import sys
 import time
-from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 
@@ -23,16 +23,44 @@ from evals.metrics import first_relevant_rank, hit_at_k, mrr
 from evals.questions import QUESTIONS_PATH, Question, check_labels, is_relevant, load_questions
 from rag.corpus import load_chunks, load_documents
 from rag.models import Chunk
-from rag.retrievers import BM25Retriever, Retriever
+from rag.retrievers import (
+    BM25Retriever,
+    DenseRetriever,
+    HybridRetriever,
+    RerankRetriever,
+    Retriever,
+)
 
 K_VALUES = (1, 3, 5, 10)
 TOP_K = max(K_VALUES)
 RESULTS_DIR = Path("evals/results")
 
-# Stage name -> factory that builds the retriever from the chunked corpus.
-STAGES: dict[str, Callable[[list[Chunk]], Retriever]] = {
-    "bm25": BM25Retriever,
-}
+# Order = order of the rows in the results table. Each stage builds on the previous ones:
+# hybrid = RRF(bm25, dense), rerank = cross-encoder over the hybrid top 20.
+STAGE_NAMES = ("bm25", "dense", "hybrid", "rerank")
+
+
+def build_retrievers(names: list[str], chunks: list[Chunk]) -> dict[str, Retriever]:
+    """Build the requested stages, sharing sub-retrievers (the dense index is built once)."""
+    built: dict[str, Retriever] = {}
+
+    def get(name: str) -> Retriever:
+        if name not in built:
+            if name == "bm25":
+                built[name] = BM25Retriever(chunks)
+            elif name == "dense":
+                built[name] = DenseRetriever(chunks)
+            elif name == "hybrid":
+                built[name] = HybridRetriever([get("bm25"), get("dense")])
+            elif name == "rerank":
+                built[name] = RerankRetriever(get("hybrid"))
+        return built[name]
+
+    return {name: get(name) for name in names}
+
+
+def model_names(retrievers: dict[str, Retriever]) -> dict[str, str]:
+    return {name: r.model_name for name, r in retrievers.items() if hasattr(r, "model_name")}
 
 
 def git_commit() -> str:
@@ -54,6 +82,9 @@ def evaluate_stage(
     ranks: list[int | None] = []
     latencies_ms: list[float] = []
     details: list[dict] = []
+    # One untimed warm-up query: the first call of a torch model is much slower (lazy init)
+    # and would otherwise inflate the mean latency of the neural stages.
+    retriever.search("warm-up", TOP_K)
     for q in questions:
         start = time.perf_counter()
         results = retriever.search(q.question, TOP_K)
@@ -78,8 +109,8 @@ def evaluate_stage(
     return metrics, details
 
 
-def to_markdown(results: dict) -> str:
-    cols = [f"hit@{k}" for k in K_VALUES] + ["mrr@10", "latency_ms_mean"]
+def to_markdown(results: dict, details: list[dict], questions: list[Question]) -> str:
+    cols = [f"hit@{k}" for k in K_VALUES] + ["mrr@10", "latency_ms_mean", "latency_ms_p95"]
     lines = [
         "| stage | " + " | ".join(cols) + " |",
         "|---" * (len(cols) + 1) + "|",
@@ -93,9 +124,26 @@ def to_markdown(results: dict) -> str:
         f"n = {meta['n_questions_scored']} answerable questions "
         f"({meta['n_reviewed']} reviewed, {meta['n_draft']} draft); "
         f"{meta['n_docs']} documents, {meta['n_chunks']} chunks.",
+        "Latency = milliseconds per query on CPU, including the stages a stage builds on "
+        f"(hybrid includes bm25 + dense). Machine: {meta['platform']}.",
+        f"Models: {meta['models'] or 'none'}.",
         f"Generated {meta['generated_at']} at commit `{meta['git_commit']}`.",
         f"Reproduce: `{meta['command']}`",
     ]
+
+    # Per-question ranks: the most useful view for error analysis ("-" = not in top 10).
+    stages = list(results["stages"])
+    rank = {(d["id"], d["stage"]): d["rank"] for d in details}
+    lines += [
+        "",
+        "### Rank of the first relevant chunk per question",
+        "",
+        "| id | " + " | ".join(stages) + " | notes |",
+        "|---" * (len(stages) + 2) + "|",
+    ]
+    for q in questions:
+        cells = [str(rank[(q.id, s)] or "-") for s in stages]
+        lines.append(f"| {q.id} | " + " | ".join(cells) + f" | {q.notes} |")
     return "\n".join(lines) + "\n"
 
 
@@ -107,10 +155,10 @@ def main() -> int:
     parser.add_argument("--out-dir", type=Path, default=RESULTS_DIR)
     args = parser.parse_args()
 
-    stage_names = list(STAGES) if args.stages == "all" else args.stages.split(",")
-    unknown = [s for s in stage_names if s not in STAGES]
+    stage_names = list(STAGE_NAMES) if args.stages == "all" else args.stages.split(",")
+    unknown = [s for s in stage_names if s not in STAGE_NAMES]
     if unknown:
-        parser.error(f"unknown stage(s) {unknown}; choose from {list(STAGES)}")
+        parser.error(f"unknown stage(s) {unknown}; choose from {list(STAGE_NAMES)}")
 
     chunks = load_chunks()
     all_questions = load_questions(args.questions)
@@ -127,10 +175,10 @@ def main() -> int:
         print("No questions to score.")
         return 1
 
+    retrievers = build_retrievers(stage_names, chunks)
     results: dict = {"stages": {}, "meta": {}}
     all_details: list[dict] = []
-    for name in stage_names:
-        retriever = STAGES[name](chunks)
+    for name, retriever in retrievers.items():
         metrics, details = evaluate_stage(retriever, scored)
         results["stages"][name] = metrics
         all_details += details
@@ -145,11 +193,14 @@ def main() -> int:
         "n_unanswerable_excluded": sum(1 for q in all_questions if not q.answerable),
         "n_reviewed": sum(1 for q in scored if q.status == "reviewed"),
         "n_draft": sum(1 for q in scored if q.status == "draft"),
+        "models": model_names(retrievers),
+        "platform": f"{platform.machine()} {platform.system()} {platform.release()}, "
+        f"Python {platform.python_version()}",
     }
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     (args.out_dir / "retrieval.json").write_text(json.dumps(results, indent=2) + "\n")
-    table = to_markdown(results)
+    table = to_markdown(results, all_details, scored)
     (args.out_dir / "retrieval.md").write_text(table)
     detail_lines = [json.dumps(d, ensure_ascii=False) for d in all_details]
     (args.out_dir / "retrieval_details.jsonl").write_text("\n".join(detail_lines) + "\n")
