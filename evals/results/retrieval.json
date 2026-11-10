@@ -1,0 +1,24 @@
+{
+  "stages": {
+    "bm25": {
+      "hit@1": 0.5294117647058824,
+      "hit@3": 0.7647058823529411,
+      "hit@5": 0.8235294117647058,
+      "hit@10": 0.9411764705882353,
+      "mrr@10": 0.6603641456582633,
+      "latency_ms_mean": 0.33024011987864094,
+      "latency_ms_p95": 0.9640116943046451
+    }
+  },
+  "meta": {
+    "generated_at": "2026-11-10T23:58:21",
+    "git_commit": "3a0c80a",
+    "command": "uv run python -m evals.retrieval_eval --stages bm25",
+    "n_docs": 130,
+    "n_chunks": 210,
+    "n_questions_scored": 17,
+    "n_unanswerable_excluded": 5,
+    "n_reviewed": 0,
+    "n_draft": 17
+  }
+}
