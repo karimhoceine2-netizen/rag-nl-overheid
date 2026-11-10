@@ -41,6 +41,25 @@ def test_parse_html_skips_video_and_feedback_blocks():
     assert "geholpen" not in doc.text
 
 
+def test_parse_html_keeps_tables_in_order():
+    table = """
+    <div class="rich-text"><p>De bedragen zijn:</p>
+    <table><caption>Uurprijzen 2026</caption>
+      <tr><th>Soort</th><th>Prijs</th></tr>
+      <tr><th>dagopvang</th><td><p>€ 11,23</p></td></tr>
+    </table><p>Einde.</p></div>"""
+    video = '<div class="block video-block">'
+    html = HTML.replace(video, table + video)
+    lines = parse_html(html, URL, "2026-11-10").text.splitlines()
+    assert lines[-5:] == [
+        "De bedragen zijn:",
+        "Uurprijzen 2026",
+        "Soort | Prijs",
+        "dagopvang | € 11,23",
+        "Einde.",
+    ]
+
+
 def test_parse_html_reports_missing_license():
     html = HTML.replace('<meta name="DCTERMS.rights" content="CC0 1.0 Universal">', "")
     assert parse_html(html, URL, "2026-11-10").license == "unknown"

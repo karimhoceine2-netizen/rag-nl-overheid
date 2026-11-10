@@ -86,6 +86,17 @@ def _clean(text: str) -> str:
     return re.sub(r"\s+([.,;:!?)])", r"\1", text)
 
 
+def _table_lines(table) -> list[str]:
+    lines = []
+    if table.caption:
+        lines.append(_clean(table.caption.get_text(" ", strip=True)))
+    for row in table.find_all("tr"):
+        cells = [_clean(c.get_text(" ", strip=True)) for c in row.find_all(["th", "td"])]
+        if any(cells):
+            lines.append(" | ".join(cells))
+    return [line for line in lines if line]
+
+
 def parse_html(html: str, url: str, retrieved_at: str) -> Document:
     """Extract the article text from a rijksoverheid.nl page.
 
@@ -102,9 +113,14 @@ def parse_html(html: str, url: str, retrieved_at: str) -> Document:
 
     lines: list[str] = []
     for block in main.find_all("div", class_=["intro", "rich-text"], recursive=False):
-        for el in block.find_all(["h2", "h3", "h4", "p", "li"]):
-            # A <p> or nested <li> inside an <li> is already part of that list item's text.
-            if el.find_parent("li") is not None:
+        for el in block.find_all(["h2", "h3", "h4", "p", "li", "table"]):
+            # Text inside a list item or table is already handled by that <li> / <table>.
+            if el.find_parent(["li", "table"]) is not None:
+                continue
+            if el.name == "table":
+                # Tables hold key figures (hourly rate caps, rent increases), so keep them:
+                # caption first, then one "cell | cell" line per row.
+                lines += _table_lines(el)
                 continue
             text = _clean(el.get_text(" ", strip=True))
             if not text:
