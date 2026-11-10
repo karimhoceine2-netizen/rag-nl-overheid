@@ -1,14 +1,14 @@
 | stage | hit@1 | hit@3 | hit@5 | hit@10 | mrr@10 | latency_ms_mean | latency_ms_p95 |
 |---|---|---|---|---|---|---|---|
-| bm25 | 0.529 | 0.765 | 0.824 | 0.941 | 0.660 | 0.5 | 0.8 |
-| dense | 0.647 | 0.824 | 0.941 | 1.000 | 0.760 | 10.4 | 12.3 |
-| hybrid | 0.471 | 0.824 | 0.941 | 1.000 | 0.676 | 10.8 | 11.5 |
-| rerank | 0.588 | 0.882 | 0.941 | 1.000 | 0.735 | 1148.4 | 1195.4 |
+| bm25 | 0.529 | 0.765 | 0.824 | 0.941 | 0.660 | 0.5 | 0.7 |
+| dense | 0.647 | 0.824 | 0.941 | 1.000 | 0.760 | 10.4 | 12.5 |
+| hybrid | 0.471 | 0.824 | 0.941 | 1.000 | 0.676 | 10.9 | 11.6 |
+| rerank | 0.588 | 0.882 | 0.941 | 1.000 | 0.735 | 1131.3 | 1157.3 |
 
 n = 17 answerable questions (0 reviewed, 17 draft); 130 documents, 210 chunks.
 Latency = milliseconds per query on CPU, including the stages a stage builds on (hybrid includes bm25 + dense). Machine: arm64 Darwin 25.6.0, Python 3.12.16.
 Models: {'dense': 'intfloat/multilingual-e5-small', 'rerank': 'cross-encoder/mmarco-mMiniLMv2-L12-H384-v1'}.
-Generated 2026-11-11T00:07:01 at commit `05876a1-dirty`.
+Generated 2026-11-11T00:07:57 at commit `9c9974c`.
 Reproduce: `uv run python -m evals.retrieval_eval`
 
 ### Rank of the first relevant chunk per question
