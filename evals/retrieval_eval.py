@@ -68,8 +68,13 @@ def git_commit() -> str:
         sha = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True
         ).stdout.strip()
+        # "dirty" = uncommitted changes that could affect the numbers. The eval's own output
+        # folder is excluded, otherwise every re-run would mark itself dirty.
         dirty = subprocess.run(
-            ["git", "status", "--porcelain"], capture_output=True, text=True, check=True
+            ["git", "status", "--porcelain", "--", ".", f":!{RESULTS_DIR}"],
+            capture_output=True,
+            text=True,
+            check=True,
         ).stdout.strip()
         return f"{sha}-dirty" if dirty else sha
     except (subprocess.CalledProcessError, FileNotFoundError):
