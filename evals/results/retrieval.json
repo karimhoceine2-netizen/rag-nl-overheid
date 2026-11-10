@@ -6,19 +6,51 @@
       "hit@5": 0.8235294117647058,
       "hit@10": 0.9411764705882353,
       "mrr@10": 0.6603641456582633,
-      "latency_ms_mean": 0.33024011987864094,
-      "latency_ms_p95": 0.9640116943046451
+      "latency_ms_mean": 0.467120176729034,
+      "latency_ms_p95": 0.7782211963785812
+    },
+    "dense": {
+      "hit@1": 0.6470588235294118,
+      "hit@3": 0.8235294117647058,
+      "hit@5": 0.9411764705882353,
+      "hit@10": 1.0,
+      "mrr@10": 0.7603641456582633,
+      "latency_ms_mean": 10.40173276252223,
+      "latency_ms_p95": 12.34894959779922
+    },
+    "hybrid": {
+      "hit@1": 0.47058823529411764,
+      "hit@3": 0.8235294117647058,
+      "hit@5": 0.9411764705882353,
+      "hit@10": 1.0,
+      "mrr@10": 0.6764705882352942,
+      "latency_ms_mean": 10.838355352033807,
+      "latency_ms_p95": 11.532383694429882
+    },
+    "rerank": {
+      "hit@1": 0.5882352941176471,
+      "hit@3": 0.8823529411764706,
+      "hit@5": 0.9411764705882353,
+      "hit@10": 1.0,
+      "mrr@10": 0.7348039215686275,
+      "latency_ms_mean": 1148.3545442375437,
+      "latency_ms_p95": 1195.3846041928045
     }
   },
   "meta": {
-    "generated_at": "2026-11-10T23:58:21",
-    "git_commit": "3a0c80a",
-    "command": "uv run python -m evals.retrieval_eval --stages bm25",
+    "generated_at": "2026-11-11T00:07:01",
+    "git_commit": "05876a1-dirty",
+    "command": "uv run python -m evals.retrieval_eval",
     "n_docs": 130,
     "n_chunks": 210,
     "n_questions_scored": 17,
     "n_unanswerable_excluded": 5,
     "n_reviewed": 0,
-    "n_draft": 17
+    "n_draft": 17,
+    "models": {
+      "dense": "intfloat/multilingual-e5-small",
+      "rerank": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
+    },
+    "platform": "arm64 Darwin 25.6.0, Python 3.12.16"
   }
 }
