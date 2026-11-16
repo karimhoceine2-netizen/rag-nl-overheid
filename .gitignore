@@ -18,3 +18,6 @@ data/raw/*.html
 
 # Runtime query logs
 logs/
+
+# Precomputed embeddings; rebuilt by `uv run python -m rag.dense_index` and in the Docker build
+data/dense_index.npz

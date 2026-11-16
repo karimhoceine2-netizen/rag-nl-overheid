@@ -27,6 +27,10 @@ RUN uv sync --locked --no-dev --no-editable
 # instead of downloading it from Hugging Face.
 RUN /app/.venv/bin/python -c "from rag.retrievers.dense import E5Encoder; E5Encoder()"
 
+# Embed all chunks once here, so startup loads a file instead of computing ~10 s of vectors.
+COPY data/docs.jsonl ./data/docs.jsonl
+RUN /app/.venv/bin/python -m rag.dense_index
+
 
 FROM python:3.12.16-slim-bookworm AS runtime
 
@@ -38,7 +42,7 @@ RUN apt-get update \
 WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /opt/hf /opt/hf
-COPY data/docs.jsonl ./data/docs.jsonl
+COPY --from=builder /app/data ./data
 RUN install -d -o rag -g rag /app/logs
 
 ENV PATH="/app/.venv/bin:$PATH" \
