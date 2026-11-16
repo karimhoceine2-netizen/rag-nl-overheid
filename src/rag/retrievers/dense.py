@@ -59,10 +59,24 @@ class E5Encoder:
 class DenseRetriever:
     name = "dense"
 
-    def __init__(self, chunks: list[Chunk], encoder: Encoder | None = None) -> None:
+    def __init__(
+        self,
+        chunks: list[Chunk],
+        encoder: Encoder | None = None,
+        matrix: np.ndarray | None = None,
+    ) -> None:
         self._chunks = list(chunks)
         self._encoder = encoder or E5Encoder()
-        self._matrix = self._encoder.encode_passages([c.search_text for c in self._chunks])
+        # A precomputed matrix (see rag.dense_index) skips the slowest part of startup.
+        if matrix is None:
+            matrix = self._encoder.encode_passages([c.search_text for c in self._chunks])
+        elif matrix.shape[0] != len(self._chunks):
+            raise ValueError("matrix must have one row per chunk")
+        self._matrix = matrix
+
+    @property
+    def matrix(self) -> np.ndarray:
+        return self._matrix
 
     @property
     def model_name(self) -> str:

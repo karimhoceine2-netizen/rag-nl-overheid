@@ -11,3 +11,4 @@ evals
 docs
 scripts
 *.md
+data/dense_index.npz

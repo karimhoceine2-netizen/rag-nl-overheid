@@ -1,4 +1,5 @@
 import json
+import threading
 
 from fastapi.testclient import TestClient
 
@@ -66,7 +67,7 @@ def test_api_logs_answer_abstention_and_provider_error(tmp_path):
 
 def test_search_is_free_and_ask_reports_missing_key(monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
-    app = create_app(retriever=BM25Retriever(load_chunks()))
+    app = create_app(retriever_factory=lambda: BM25Retriever(load_chunks()))
     with TestClient(app) as client:
         hits = client.post("/search", json={"question": "eigen risico huisarts", "k": 3})
         assert hits.status_code == 200
@@ -87,3 +88,36 @@ def test_ask_returns_429_after_daily_limit(tmp_path):
         assert blocked.status_code == 429
         # Only the allowed call reached the model and the log.
         assert len((tmp_path / "q.jsonl").read_text().splitlines()) == 1
+
+
+def test_port_opens_while_retriever_loads_and_requests_wait(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    release = threading.Event()
+
+    def slow_retriever():
+        release.wait(5)
+        return BM25Retriever(load_chunks())
+
+    app = create_app(retriever_factory=slow_retriever, startup_wait_s=0.05)
+    with TestClient(app) as client:
+        assert client.get("/health").json() == {"status": "loading"}
+        waiting = client.post("/search", json={"question": "eigen risico"})
+        assert waiting.status_code == 503
+
+        release.set()
+        app.state.startup.ready.wait(5)
+        assert client.get("/health").json() == {"status": "ok"}
+        assert client.post("/search", json={"question": "eigen risico"}).status_code == 200
+
+
+def test_failed_load_makes_health_fail(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+
+    def broken():
+        raise RuntimeError("model missing")
+
+    app = create_app(retriever_factory=broken)
+    with TestClient(app) as client:
+        app.state.startup.ready.wait(5)
+        assert client.get("/health").status_code == 500
+        assert client.post("/search", json={"question": "eigen risico"}).status_code == 503
