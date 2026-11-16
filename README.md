@@ -94,6 +94,12 @@ Daarom krijgt de Cloud Run-dienst 2 GiB geheugen.
 
 ### Cloud Run
 
+De API draait op [Google Cloud Run](https://rag-nl-overheid-440512847068.europe-west4.run.app/docs).
+Probeer `POST /search` (gratis) of `POST /ask` (maximaal 50 vragen per dag) via
+**Try it out**. Zonder verkeer schaalt de dienst naar nul. Het eerste verzoek na een rustige
+periode kan daarom mislukken of lang duren terwijl de container opstart. Probeer het dan na
+een halve minuut opnieuw.
+
 [docs/DEPLOY.md](docs/DEPLOY.md) beschrijft de eenmalige setup, het deployscript, de
 kostenbegrenzing en het opruimen. De deploy zelf is één opdracht.
 
