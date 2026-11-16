@@ -1,0 +1,9 @@
+# Files `gcloud run deploy --source .` must never upload.
+.git
+.env*
+.venv
+.pytest_cache
+.ruff_cache
+logs
+data/raw
+**/__pycache__
