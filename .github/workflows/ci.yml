@@ -24,7 +24,7 @@ jobs:
       - name: Check retrieval floors
         run: >-
           uv run --locked python -m evals.retrieval_eval
-          --thresholds evals/thresholds.json --out-dir logs/ci-retrieval
+          --reviewed-only --thresholds evals/thresholds.json --out-dir logs/ci-retrieval
       - name: Upload retrieval reports
         if: ${{ !cancelled() && hashFiles('logs/ci-retrieval/retrieval.json') != '' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

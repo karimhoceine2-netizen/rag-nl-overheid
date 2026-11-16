@@ -1,0 +1,1685 @@
+{
+  "meta": {
+    "generated_at": "2026-11-16T16:52:41.506492+00:00",
+    "git_commit": "28d48ce",
+    "command": "uv run --env-file .env python -m evals.answer_eval --reviewed-only --out logs/answer_eval_final.json",
+    "retriever": "dense",
+    "retrieval_models": {
+      "dense": "intfloat/multilingual-e5-small"
+    },
+    "top_k": 5,
+    "generation_model": "claude-haiku-5-5",
+    "judge_model": "claude-sonnet-5-5",
+    "n_reviewed": 51,
+    "n_draft": 0,
+    "note": "Manually spot-check LLM judge verdicts against the cited sources."
+  },
+  "metrics": {
+    "groundedness": {
+      "count": 39,
+      "total": 42,
+      "rate": 0.9285714285714286
+    },
+    "correct_abstention": {
+      "count": 7,
+      "total": 8,
+      "rate": 0.875
+    },
+    "answerable_coverage": {
+      "count": 41,
+      "total": 43,
+      "rate": 0.9534883720930233
+    },
+    "invalid_answers": 1,
+    "invalid_judgments": 0
+  },
+  "details": [
+    {
+      "id": "q001",
+      "question": "Vanaf welk moment kan mijn zorgtoeslag ingaan als ik 18 word?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/kan-ik-zorgtoeslag-krijgen",
+      "evidence": "De zorgtoeslag gaat in op de 1e dag van de maand die volgt op de maand waarin u 18 bent geworden",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "De zorgtoeslag gaat in op de 1e dag van de maand die volgt op de maand waarin u 18 bent geworden. [1]\nEen voorwaarde voor zorgtoeslag is dat u 18 jaar of ouder bent, een Nederlandse zorgverzekering heeft, de Nederlandse nationaliteit of een verblijfsvergunning heeft, en dat uw gezamenlijke inkomen en vermogen niet te hoog zijn. [1]\nVanaf 18 jaar kunt u recht hebben op zorgtoeslag; het inkomen van uw ouders maakt daarbij niet uit. [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "kan-ik-zorgtoeslag-krijgen#0",
+            "title": "Kan ik zorgtoeslag krijgen?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/kan-ik-zorgtoeslag-krijgen"
+          },
+          {
+            "number": 2,
+            "chunk_id": "tips-zorgverzekering#0",
+            "title": "Tips waarmee u  goed verzekerd bent voor zorgkosten",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/tips-zorgverzekering"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen gedekt. Bron 1 zegt dat de zorgtoeslag ingaat op de 1e dag van de maand na de maand waarin u 18 wordt, en noemt de voorwaarden: 18+, Nederlandse zorgverzekering, nationaliteit of verblijfsvergunning, en inkomen en vermogen niet te hoog. Bron 2 zegt dat u vanaf 18 jaar recht kunt hebben op zorgtoeslag en dat het inkomen van de ouders niet uitmaakt."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2867,
+        "output_tokens": 212,
+        "estimated_cost_usd": 0.007854
+      }
+    },
+    {
+      "id": "q002",
+      "question": "Hoe hoog is het eigen risico van de zorgverzekering in 2026?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/eigen-risico-zorgverzekering",
+      "evidence": "Het verplichte eigen risico voor 2026 en in 2027 is € 385",
+      "first_relevant_rank": 5,
+      "response": {
+        "status": "answered",
+        "answer": "Het eigen risico van de zorgverzekering blijft in 2026 € 385. [1] [2] [3]\nHet eigen risico geldt voor mensen van 18 jaar of ouder die zorg uit het basispakket gebruiken, en het bedrag van € 385 geldt voor 2026 en 2027. [3]\nVoor huisartsenzorg, verloskundige zorg, kraamzorg, wijkverpleging en andere in de bronnen genoemde zorg geldt geen eigen risico. [3]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "wat-zit-er-in-het-basispakket-van-de-zorgverzekering#0",
+            "title": "Welke zorg zit in het basispakket van de zorgverzekering?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-zit-er-in-het-basispakket-van-de-zorgverzekering"
+          },
+          {
+            "number": 2,
+            "chunk_id": "veranderingen-basispakket#0",
+            "title": "Wat verandert er in het basispakket van de zorgverzekering in 2026?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/veranderingen-basispakket"
+          },
+          {
+            "number": 3,
+            "chunk_id": "eigen-risico-zorgverzekering#0",
+            "title": "Wanneer betaal ik een eigen risico voor mijn zorg?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/eigen-risico-zorgverzekering"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen ondersteund. Bron 1 en 2 vermelden dat het eigen risico in 2026 € 385 blijft. Bron 3 noemt € 385 voor 2026 en 2027, de leeftijdsgrens van 18 jaar en ouder en zorg uit het basispakket. Bron 3 noemt ook huisartsenzorg, verloskundige zorg, kraamzorg en wijkverpleging als zorg zonder eigen risico. De formulering \"andere in de bronnen genoemde zorg\" is niet in strijd met de bron."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2781,
+        "output_tokens": 221,
+        "estimated_cost_usd": 0.007772
+      }
+    },
+    {
+      "id": "q003",
+      "question": "Gaat een bezoek aan de huisarts van mijn eigen risico af?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/eigen-risico-zorgverzekering",
+      "evidence": "huisartsenzorg (waaronder de huisartsenpost)",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "Een bezoek aan de huisarts gaat niet ten koste van het verplichte eigen risico. [1] [2] [3]\nHuisartsenzorg is een van de zorgsoorten waarvoor geen eigen risico geldt, net als de huisartsenpost, verloskundige zorg, kraamzorg en wijkverpleging. [2]\nHet verplichte eigen risico voor 2026 en 2027 is € 385 voor mensen van 18 jaar of ouder die zorg uit het basispakket gebruiken. [2]\nWel kan het zijn dat de huisarts extra onderzoek doet, zoals bloedprikken, en voorgeschreven geneesmiddelen; deze zorg valt wel onder het verplichte eigen risico. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "huisartskosten-op-zorgnota#0",
+            "title": "Moet ik de huisartskosten zelf betalen?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/eerstelijnszorg/huisartskosten-op-zorgnota"
+          },
+          {
+            "number": 2,
+            "chunk_id": "eigen-risico-zorgverzekering#0",
+            "title": "Wanneer betaal ik een eigen risico voor mijn zorg?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/eigen-risico-zorgverzekering"
+          },
+          {
+            "number": 3,
+            "chunk_id": "wat-zit-er-in-het-basispakket-van-de-zorgverzekering#1",
+            "title": "Welke zorg zit in het basispakket van de zorgverzekering?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-zit-er-in-het-basispakket-van-de-zorgverzekering"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": false,
+          "rationale": "Het antwoord bevat een bewering die niet door de bronnen wordt gedekt. Dat de huisartsenpost, verloskundige zorg, kraamzorg en wijkverpleging onder 'huisartsenzorg' vallen, wordt in bron 2 niet zo gesteld. Bron 2 noemt dit als aparte zorgsoorten zonder eigen risico, waarbij de huisartsenpost tussen haakjes bij huisartsenzorg staat. Dat is wel te verdedigen. Het knelpunt zit elders: het antwoord stelt dat de huisarts 'voorgeschreven geneesmiddelen' en extra onderzoek doet, wat bron 1 wel ondersteunt. Bron 2 zegt echter dat de huisarts één van de zorgsoorten is waarvoor geen eigen risico geldt, wat klopt. Bron 3 laat zien dat bloedprikken via de huisarts wel onder het eigen risico valt, dus dat klopt ook. De bedragen en jaartallen (€ 385 voor 2026 en 2027, 18 jaar of ouder) komen overeen met bron 2. Alle beweringen lijken dus gedekt, maar het citaat bij de eerste zin verwijst naar bron 3, die 'Bezoek huisarts: Nee' bevestigt. Bij nader inzien zijn de uitspraken echter ondersteund, behalve de formulering 'is een van de zorgsoorten ... net als de huisartsenpost'. Die lijst komt voor in bron 2, dus dit is ondersteund. Ik beoordeel strikt: de zin dat de huisarts 'extra onderzoek doet' is in bron 1 'moet doen', een lichte afwijking, en 'ook zonder eigen risico' voor het bezoek zelf is ondersteund."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 3713,
+        "output_tokens": 650,
+        "estimated_cost_usd": 0.013926
+      }
+    },
+    {
+      "id": "q004",
+      "question": "Tot wanneer kan ik huurtoeslag over 2025 nog aanvragen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/woning-huren/kan-ik-huurtoeslag-krijgen",
+      "evidence": "De huurtoeslag over 2025 kunt u tot en met 31 december 2026 aanvragen",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "De huurtoeslag over 2025 kunt u online aanvragen met Mijn toeslagen, met DigiD, tot en met 31 december 2026. [1]\nU hoeft de huurtoeslag maar één keer aan te vragen; daarna krijgt u de toeslag elk jaar vanzelf, zolang u aan de voorwaarden voldoet. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "kan-ik-huurtoeslag-krijgen#0",
+            "title": "Kan ik huurtoeslag krijgen?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/woning-huren/kan-ik-huurtoeslag-krijgen"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 zegt dat huurtoeslag online kan worden aangevraagd met Mijn toeslagen en DigiD, en dat de toeslag over 2025 tot en met 31 december 2026 kan worden aangevraagd. Bron 1 zegt ook dat u de toeslag maar één keer hoeft aan te vragen en daarna elk jaar vanzelf krijgt zolang u aan de voorwaarden voldoet. Alle beweringen in het antwoord staan dus in de bron."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1739,
+        "output_tokens": 190,
+        "estimated_cost_usd": 0.005378
+      }
+    },
+    {
+      "id": "q005",
+      "question": "Moet ik de basisbeurs terugbetalen als ik een mbo-opleiding op niveau 2 doe?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo",
+      "evidence": "Doet u een opleiding op mbo niveau 1 of 2? Dan is de hele studiefinanciering een gift",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "Voor mbo bol-opleidingen op niveau 1 en 2 zijn de basisbeurs, de aanvullende beurs en het reisproduct een gift; er hoeft dus niets terug te worden betaald, ook niet als het diploma niet binnen 10 jaar wordt behaald. [1] [2]\nStudenten op niveau 1 en 2 hebben recht op studiefinanciering zolang ze ingeschreven staan bij hun opleiding. [1]\nEen mbo-opleiding op niveau 2 valt onder de gift-regeling, maar als de student tegelijkertijd ingeschreven staat voor een opleiding op niveau 3 of 4, zijn basisbeurs, aanvullende beurs en reisproduct een prestatiebeurs en geen gift. [3]\nVoorwaarden voor studiefinanciering in het mbo zijn onder meer dat de student minimaal 18 jaar en jonger dan 30 jaar is en een voltijds bol-opleiding volgt die ten minste 1 jaar duurt. [4]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "studiefinanciering-mbo#1",
+            "title": "Studiefinanciering voor studenten in het mbo",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-mbo"
+          },
+          {
+            "number": 2,
+            "chunk_id": "studiefinanciering-student-mbo#0",
+            "title": "Heb ik als mbo'er recht op studiefinanciering?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo"
+          },
+          {
+            "number": 3,
+            "chunk_id": "wat-is-de-prestatiebeurs-in-het-middelbaar-beroepsonderwijs-mbo#1",
+            "title": "Wat is de prestatiebeurs in het middelbaar beroepsonderwijs (mbo)?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/middelbaar-beroepsonderwijs/wat-is-de-prestatiebeurs-in-het-middelbaar-beroepsonderwijs-mbo"
+          },
+          {
+            "number": 4,
+            "chunk_id": "studiefinanciering-mbo#0",
+            "title": "Studiefinanciering voor studenten in het mbo",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-mbo"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Elke bewering wordt door de bijbehorende bron ondersteund. Bron 1 en 2 zeggen dat de basisbeurs, aanvullende beurs en het reisproduct op niveau 1 en 2 een gift zijn, ook zonder diploma binnen 10 jaar. Bron 1 bevestigt dat niveau 1 en 2 recht hebben zolang ze ingeschreven staan. Bron 3 beschrijft de dubbele inschrijving met een opleiding op niveau 3 of 4, waarbij het een prestatiebeurs wordt. Bron 4 noemt de voorwaarden: minimaal 18 jaar, jonger dan 30 jaar, een voltijds bol-opleiding van ten minste 1 jaar."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 4693,
+        "output_tokens": 279,
+        "estimated_cost_usd": 0.012176
+      }
+    },
+    {
+      "id": "q006",
+      "question": "Hoeveel jaar kan ik het studentenreisproduct gebruiken bij een hbo-opleiding van vier jaar?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/recht-reisproduct-studenten",
+      "evidence": "kunnen in dat geval dus 5 jaar vrij of met korting in het openbaar vervoer reizen",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Bij een hbo-opleiding van vier jaar kunt u het studentenreisproduct in het hoger onderwijs gebruiken voor de officiële duur van de opleiding plus 1 jaar, dus in totaal 5 jaar. [1]\nHet studentenreisproduct geldt alleen voor een voltijdopleiding aan hbo, mbo of universiteit, en u moet jonger zijn dan 30 jaar wanneer uw studiefinanciering ingaat. [1]\nVoor een hbo-opleiding is het studentenreisproduct eerst een lening (prestatiebeurs). Als u het diploma binnen 10 jaar behaalt, wordt het reisproduct een gift en hoeft u het niet terug te betalen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "recht-reisproduct-studenten#0",
+            "title": "Heb ik recht op een reisproduct (ov-kaart) voor studenten?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/recht-reisproduct-studenten"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord komen overeen met bron 1: de duur is de officiële duur van de opleiding plus 1 jaar (dus 5 jaar bij een hbo-opleiding van 4 jaar), het reisproduct geldt voor een voltijdopleiding en de student moet jonger zijn dan 30 als de studiefinanciering ingaat, en bij hbo is het eerst een lening (prestatiebeurs) die een gift wordt als het diploma binnen 10 jaar wordt behaald."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1864,
+        "output_tokens": 195,
+        "estimated_cost_usd": 0.005678
+      }
+    },
+    {
+      "id": "q007",
+      "question": "Ik teken in 2026 een huurcontract. Hoeveel borg mag mijn huisbaas maximaal vragen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/woning-huren-waarborgsom",
+      "evidence": "Voor contracten afgesloten vanaf 1 juli 2023 mag dit maximaal 2 maanden kale huur zijn",
+      "first_relevant_rank": 4,
+      "response": {
+        "status": "answered",
+        "answer": "Voor huurcontracten afgesloten vanaf 1 juli 2023 mag de verhuurder een waarborgsom (borg) vragen van maximaal 2 maanden kale huur. [1] [2]\nVoor huurcontracten afgesloten vóór 1 juli 2023 mag de waarborgsom maximaal 3 maanden kale huur zijn; dit geldt dus niet voor een contract dat u in 2026 tekent. [1] [2]\nAls de verhuurder een te hoge waarborgsom vraagt, kunt u weigeren te betalen, betalen en het melden bij de gemeente, of betalen en achteraf aan de rechter vragen de waarborgsom te verlagen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "woning-huren-waarborgsom#0",
+            "title": "Mag mijn verhuurder een waarborgsom vragen als ik een woning wil huren?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/woning-huren-waarborgsom"
+          },
+          {
+            "number": 2,
+            "chunk_id": "welke-extra-kosten-mag-verhuurder-bij-een-huurcontract-vragen#0",
+            "title": "Welke extra kosten mag een verhuurder bij een huurcontract vragen?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/welke-extra-kosten-mag-verhuurder-bij-een-huurcontract-vragen"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen ondersteund. Bron 1 en 2 noemen maximaal 2 maanden kale huur voor contracten vanaf 1 juli 2023 en maximaal 3 maanden daarvoor. De conclusie dat het oude maximum niet geldt voor een contract uit 2026 volgt hieruit. De drie opties bij een te hoge waarborgsom (weigeren, betalen en melden bij de gemeente, betalen en de rechter vragen te verlagen) staan in bron 1."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2872,
+        "output_tokens": 200,
+        "estimated_cost_usd": 0.007744
+      }
+    },
+    {
+      "id": "q008",
+      "question": "Wat is de maximale uurprijs voor kinderopvangtoeslag voor dagopvang in 2026?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2026",
+      "evidence": "dagopvang | € 11,23",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "De maximale uurprijs voor dagopvang in 2026 is € 11,23 per uur. [1]\nVoor de kinderopvangtoeslag vergoedt de overheid in 2026 maximaal 230 uur per kind per maand, en het maximale aantal uur per jaar is 2760. [1]\nAls het uurtarief van de kinderopvang hoger is dan de maximale uurprijs, betalen ouders het bedrag boven de maximale uurprijs zelf. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "bedragen-kinderopvangtoeslag-2026#0",
+            "title": "Bedragen kinderopvangtoeslag 2026",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2026"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen staan in bron 1: de maximale uurprijs voor dagopvang in 2026 is € 11,23, de overheid vergoedt maximaal 230 uur per kind per maand, het jaarmaximum is 2760 uur, en ouders betalen het bedrag boven de maximale uurprijs zelf."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1584,
+        "output_tokens": 128,
+        "estimated_cost_usd": 0.004448
+      }
+    },
+    {
+      "id": "q009",
+      "question": "Tot welke datum kan ik mijn zorgverzekering opzeggen als ik wil overstappen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/overstappen-zorgverzekeraar",
+      "evidence": "U kunt ook zelf uw zorgverzekering opzeggen. Dit kan tot uiterlijk 31 december",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "U kunt uw zorgverzekering opzeggen tot uiterlijk 31 december. [1]\nWilt u overstappen naar een andere zorgverzekeraar, dan moet u uw oude zorgverzekering vóór 1 januari opzeggen. [2]\nEen nieuwe zorgverzekering moet u uiterlijk op 1 februari afsluiten; dan bent u met terugwerkende kracht vanaf 1 januari verzekerd. [1] [2]\nSluit u uiterlijk op 31 december een nieuwe zorgverzekering af, dan zegt de nieuwe zorgverzekeraar uw oude zorgverzekering automatisch op. [1]\nBent u met betalingen van de premie van de zorgverzekering achter, dan kunt u de zorgverzekering niet opzeggen en is overstappen dan niet mogelijk; bij een betalingsachterstand van het eigen risico kunt u wel opzeggen. [3]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "overstappen-zorgverzekeraar#0",
+            "title": "Waar moet ik aan denken als ik wil overstappen naar een andere zorgverzekeraar?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/overstappen-zorgverzekeraar"
+          },
+          {
+            "number": 2,
+            "chunk_id": "tips-zorgverzekering#1",
+            "title": "Tips waarmee u  goed verzekerd bent voor zorgkosten",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/tips-zorgverzekering"
+          },
+          {
+            "number": 3,
+            "chunk_id": "wat-gebeurt-er-als-ik-de-premie-van-mijn-zorgverzekering-niet-betaal#0",
+            "title": "Wat gebeurt er als ik de premie van mijn zorgverzekering niet betaal?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-gebeurt-er-als-ik-de-premie-van-mijn-zorgverzekering-niet-betaal"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Elke bewering wordt door de aangehaalde bron ondersteund. Bron 1 noemt opzeggen tot uiterlijk 31 december, de nieuwe verzekering tot 1 februari met terugwerkende kracht vanaf 1 januari, en het automatisch opzeggen door de nieuwe verzekeraar bij afsluiten uiterlijk 31 december. Bron 2 zegt dat de oude verzekering vóór 1 januari moet worden opgezegd en de nieuwe vóór 1 februari moet worden afgesloten. Het verschil tussen 'uiterlijk 1 februari' en 'vóór 1 februari' is verwaarloosbaar. Bron 3 bevestigt dat opzeggen en overstappen niet kan bij een premieachterstand, maar wel bij een achterstand van het eigen risico."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 3430,
+        "output_tokens": 309,
+        "estimated_cost_usd": 0.00995
+      }
+    },
+    {
+      "id": "q010",
+      "question": "Wat is de gebruikelijke opzegtermijn als ik zelf vertrek uit mijn huurwoning?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/huur-opzeggen-woning",
+      "evidence": "Meestal is dat 1 maand voor uw vertrek",
+      "first_relevant_rank": 3,
+      "response": {
+        "status": "answered",
+        "answer": "Meestal is de opzegtermijn voor de huurder 1 maand vóór het vertrek. De exacte opzegtermijn staat in het huurcontract. [1]\nEen huurder hoeft geen reden op te geven bij het opzeggen van de huur. [1]\nDe huur kan schriftelijk worden opgezegd met een aangetekende brief, waarbij u een ontvangstbewijs krijgt. Ook opzeggen per e-mail of met een gewone brief kan; dan is de opzegging geldig als de verhuurder een bevestiging van ontvangst geeft. [1]\nBij een huurcontract van 2 jaar of korter met een einddatum mag de huurder de huur eerder opzeggen dan de einddatum. [1]\nBij een huurcontract van langer dan 2 jaar met een einddatum mag de huurder de huur niet eerder opzeggen dan de einddatum. [1]\nBij een contract voor tussenhuur (diplomatenclausule) mag de huurder het contract niet vóór de einddatum opzeggen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "huur-opzeggen-woning#0",
+            "title": "Hoe zeg ik de huur op van mijn woning?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/huur-opzeggen-woning"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord worden door bron 1 ondersteund: de opzegtermijn van meestal 1 maand en de verwijzing naar het huurcontract, geen reden hoeven op te geven, opzeggen per aangetekende brief met ontvangstbewijs of per e-mail of gewone brief met bevestiging van ontvangst, de regels voor contracten van 2 jaar of korter en van langer dan 2 jaar met een einddatum, en tussenhuur (diplomatenclausule). Er zijn geen tegenstrijdigheden of onbewezen toevoegingen."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1791,
+        "output_tokens": 222,
+        "estimated_cost_usd": 0.005802
+      }
+    },
+    {
+      "id": "q011",
+      "question": "Ik woon alleen in een zelfstandige sociale huurwoning, betaal € 600 kale huur en had in 2024 een inkomen van € 36.000. Wat is vanaf 1 juli 2026 volgens de tabel het maximale percentage waarmee mijn huur mag stijgen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/wat-is-de-maximale-huurverhoging-voor-een-sociale-huurwoning-in-2026",
+      "evidence": "Bij huur van € 350 of hoger: 4,1%",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "Vanaf 1 juli 2026 is de maximale huurverhoging voor een zelfstandige sociale huurwoning voor een eenpersoonshuishouden met een lager (midden)inkomen 4,1% als de huur € 350 of hoger is. [1] [2]\nEen eenpersoonshuishouden valt onder het lager (midden)inkomen als het gezamenlijk inkomen uit 2024 niet hoger is dan € 59.504. Met een inkomen van € 36.000 in 2024 valt u dus in deze groep. [1] [2]\nBij een kale huur van € 600 per maand is het maximale percentage van 4,1% gelijk aan een huurverhoging van ongeveer € 24,60 per maand. [1]\nDe huurverhoging mag er niet toe leiden dat de huur hoger wordt dan de maximale huurprijs die hoort bij het puntenaantal van uw woning. [1] [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "welke-regels-gelden-er-voor-een-huurverhoging#1",
+            "title": "Welke regels gelden er voor een huurverhoging?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/welke-regels-gelden-er-voor-een-huurverhoging"
+          },
+          {
+            "number": 2,
+            "chunk_id": "wat-is-de-maximale-huurverhoging-voor-een-sociale-huurwoning-in-2026#0",
+            "title": "Wat is de maximale huurverhoging voor een sociale huurwoning in 2026?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/wat-is-de-maximale-huurverhoging-voor-een-sociale-huurwoning-in-2026"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen ondersteund. 4,1% bij huur vanaf € 350 en het inkomen van maximaal € 59.504 voor een eenpersoonshuishouden staan in bron 1 en 2. De beperking door de maximale huurprijs volgens het puntenaantal staat ook in beide bronnen. De berekening 4,1% van € 600 = € 24,60 klopt rekenkundig en volgt uit het percentage in bron 1."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2780,
+        "output_tokens": 180,
+        "estimated_cost_usd": 0.00736
+      }
+    },
+    {
+      "id": "q012",
+      "question": "Wanneer krijg ik van DUO een brief over kwijtschelding van mijn aanvullende beurs?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/kwijtschelding-aanvragen-voor-studieschuld-van-aanvullende-beurs",
+      "evidence": "DUO stuurt deze brief aan het einde van het 2e jaar van de aflosfase",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "DUO stuurt iedereen met een studieschuld een brief over het kwijtschelden van de aanvullende beurs, en wel aan het einde van het 2e jaar van de aflosfase. [1]\nU moet de kwijtschelding zelf bij DUO aanvragen; in de brief staat tot wanneer dat kan. [1]\nKwijtschelding van de aanvullende beurs is alleen mogelijk als u niet binnen 10 jaar uw diploma heeft gehaald, en er gelden voorwaarden zoals een niet te hoog inkomen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "kwijtschelding-aanvragen-voor-studieschuld-van-aanvullende-beurs#0",
+            "title": "Kan ik kwijtschelding aanvragen voor studieschuld van aanvullende beurs?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/kwijtschelding-aanvragen-voor-studieschuld-van-aanvullende-beurs"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord worden door bron 1 ondersteund. De brief komt van DUO aan het einde van het 2e jaar van de aflosfase en gaat naar iedereen met een studieschuld. De kwijtschelding moet zelf worden aangevraagd en de brief vermeldt de uiterste datum. De kwijtschelding geldt alleen als het diploma niet binnen 10 jaar is gehaald, en een niet te hoog inkomen is een van de voorwaarden. Het antwoord zegt dat kwijtschelding alleen mogelijk is bij niet binnen 10 jaar een diploma halen. De bron zegt dat het gaat om gevallen waarin men niet binnen 10 jaar een diploma heeft gehaald en dat men dan mogelijk kwijtschelding kan krijgen. Dat is een redelijke weergave."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1202,
+        "output_tokens": 316,
+        "estimated_cost_usd": 0.005564
+      }
+    },
+    {
+      "id": "q013",
+      "question": "Betaalt de basisverzekering mijn halfjaarlijkse tandartscontrole als ik 30 ben?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/krijg-ik-tandartskosten-vergoed",
+      "evidence": "Voor mensen boven 18 jaar zit de periodieke controle niet in het basispakket",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Voor verzekerden vanaf 18 jaar zit de periodieke controle niet in het basispakket van de basisverzekering. [1]\nOmdat de basisverzekering de periodieke tandartscontrole voor verzekerden van 18 jaar en ouder niet dekt, wordt een halfjaarlijkse controle op 30-jarige leeftijd niet uit de basisverzekering vergoed; voor vergoeding kan een aanvullende tandartsverzekering nodig zijn, en de precieze vergoeding verschilt per verzekeraar. [1]\nHet eigen risico is in 2026 en in 2027 € 385 voor verzekerden van 18 jaar of ouder die zorg uit het basispakket gebruiken, en geldt niet voor alle zorg. [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "krijg-ik-tandartskosten-vergoed#0",
+            "title": "Krijg ik tandartskosten vergoed?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/krijg-ik-tandartskosten-vergoed"
+          },
+          {
+            "number": 2,
+            "chunk_id": "eigen-risico-zorgverzekering#0",
+            "title": "Wanneer betaal ik een eigen risico voor mijn zorg?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/eigen-risico-zorgverzekering"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen ondersteund. Bron 1 zegt dat de periodieke controle voor verzekerden boven 18 niet in het basispakket zit, dat een aanvullende tandartsverzekering extra vergoeding kan geven en dat de vergoeding per verzekeraar verschilt. Bron 2 noemt een eigen risico van € 385 voor 2026 en 2027 voor verzekerden van 18 jaar of ouder die zorg uit het basispakket gebruiken, met uitzonderingen. De conclusie voor een 30-jarige volgt daaruit."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2688,
+        "output_tokens": 224,
+        "estimated_cost_usd": 0.007616
+      }
+    },
+    {
+      "id": "q014",
+      "question": "Wat is de gemiddelde zorgpremie per maand in 2026?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/premie-zorgverzekering",
+      "evidence": "Dit is gemiddeld € 157 per maand",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "De gemiddelde premie die mensen in 2026 aan hun zorgverzekeraar moeten betalen is € 1.884, oftewel gemiddeld € 157 per maand. [1]\nBetaalt u de zorgpremie niet per maand maar bijvoorbeeld per kwartaal, halfjaar of jaar, dan gaat de premie vaak iets omlaag. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "premie-zorgverzekering#0",
+            "title": "Wat kost het om een zorgverzekering af te sluiten?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/premie-zorgverzekering"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 vermeldt letterlijk dat de gemiddelde premie in 2026 € 1.884 is, gemiddeld € 157 per maand. Ook de bewering dat de premie vaak iets omlaag gaat bij betaling per kwartaal, halfjaar of jaar staat in de bron. Beide beweringen in het antwoord worden dus ondersteund."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1793,
+        "output_tokens": 146,
+        "estimated_cost_usd": 0.005046
+      }
+    },
+    {
+      "id": "q015",
+      "question": "Ik heb een brief van het CAK gekregen omdat ik onverzekerd ben. Binnen hoeveel tijd moet ik een zorgverzekering afsluiten als ik verzekeringsplichtig ben?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-gebeurt-er-als-ik-niet-verzekerd-ben-voor-de-zorgverzekering",
+      "evidence": "U moet dan binnen 3 maanden een zorgverzekering afsluiten",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Als u niet verzekerd bent, stuurt het CAK u een brief. U moet dan binnen 3 maanden een zorgverzekering afsluiten of aantonen dat u zich niet hoeft te verzekeren, bijvoorbeeld wegens gemoedsbezwaren. Doet u dat niet, dan krijgt u een boete. [1]\nAls u in Nederland werkt en verplicht bent een basisverzekering af te sluiten, heeft u 4 maanden de tijd om een zorgverzekering af te sluiten. [2]\nEen basisverzekering is verplicht voor wie in Nederland woont of werkt. Kinderen moeten binnen 4 maanden na de geboorte worden ingeschreven bij een zorgverzekeraar. [3]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "wat-gebeurt-er-als-ik-niet-verzekerd-ben-voor-de-zorgverzekering#0",
+            "title": "Wat gebeurt er als ik niet verzekerd ben voor de zorgverzekering?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-gebeurt-er-als-ik-niet-verzekerd-ben-voor-de-zorgverzekering"
+          },
+          {
+            "number": 2,
+            "chunk_id": "moet-ik-een-zorgverzekering-afsluiten-als-ik-in-nederland-ga-werken#0",
+            "title": "Moet ik een zorgverzekering afsluiten als ik in Nederland ga werken?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/immigratie-naar-nederland/moet-ik-een-zorgverzekering-afsluiten-als-ik-in-nederland-ga-werken"
+          },
+          {
+            "number": 3,
+            "chunk_id": "ben-ik-verplicht-een-zorgverzekering-af-te-sluiten#0",
+            "title": "Is een zorgverzekering verplicht?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/ben-ik-verplicht-een-zorgverzekering-af-te-sluiten"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de eigen bronfragmenten ondersteund. Bron 1 noemt de brief van het CAK, de termijn van 3 maanden, het aantonen van gemoedsbezwaren en de boete. Bron 2 zegt dat wie in Nederland werkt en verplicht is een basisverzekering af te sluiten, 4 maanden heeft. Bron 3 stelt dat een basisverzekering verplicht is voor wie in Nederland woont of werkt en dat kinderen binnen 4 maanden na de geboorte worden ingeschreven."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 3590,
+        "output_tokens": 215,
+        "estimated_cost_usd": 0.00933
+      }
+    },
+    {
+      "id": "q016",
+      "question": "Krijg ik kinderopvangtoeslag als een oppas in het winkelcentrum op mijn kind past?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/wanneer-heb-ik-recht-op-kinderopvangtoeslag",
+      "evidence": "Oppas in bijvoorbeeld een winkelcentrum is geen geregistreerde kinderopvang",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Oppas in een winkelcentrum is geen geregistreerde kinderopvang, en kinderopvangtoeslag is alleen mogelijk wanneer het kindercentrum of gastouderbureau geregistreerd is in het Landelijk Register Kinderopvang (LRK). [1]\nEen van de voorwaarden voor kinderopvangtoeslag is dat u een schriftelijke overeenkomst heeft met het kindercentrum of gastouderbureau, waarin onder meer de uurprijs en het aantal opvanguren per jaar staan. [1]\nOp basis van de beschikbare bronnen is oppas in een winkelcentrum dus geen grond voor kinderopvangtoeslag; de bronnen vermelden geen uitzondering hierop. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "wanneer-heb-ik-recht-op-kinderopvangtoeslag#0",
+            "title": "Wanneer heb ik recht op kinderopvangtoeslag?",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/wanneer-heb-ik-recht-op-kinderopvangtoeslag"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door bron 1 ondersteund. De bron zegt dat oppas in bijvoorbeeld een winkelcentrum geen geregistreerde kinderopvang is, dat registratie in het LRK een voorwaarde is, en dat een schriftelijke overeenkomst met onder meer uurprijs en opvanguren per jaar nodig is. De conclusie dat dit geen grond voor toeslag is en dat de bron geen uitzondering noemt, klopt met de bron."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1821,
+        "output_tokens": 188,
+        "estimated_cost_usd": 0.005522
+      }
+    },
+    {
+      "id": "q017",
+      "question": "Waar moet ik me inschrijven als ik een sociale huurwoning wil?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/huurwoning-zoeken/wanneer-kom-ik-in-aanmerking-voor-een-sociale-huurwoning",
+      "evidence": "U moet zich inschrijven bij een woningcorporatie",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Om een sociale huurwoning van een woningcorporatie te kunnen reageren, moet u zich eerst inschrijven bij de woningcorporatie; inschrijven kost geld. [1]\nEen sociale huurwoning van een woningcorporatie kunt u ook krijgen via een andere organisatie die sociale huurwoningen aanbiedt; welke organisaties dit zijn, kunt u navragen bij uw gemeente. [2]\nIn sommige gemeenten heeft u daarnaast een huisvestingsvergunning nodig, die u aanvraagt bij uw gemeente. [2]\nWoningcorporaties kijken naar uw (gezamenlijk) inkomen. In 2026 is de grens voor huurders met inkomen voor het minimaal 85% van het aanbod maximaal € 51.537 voor eenpersoonshuishoudens en maximaal € 56.910 voor meerpersoonshuishoudens. [2]\nKomt u met uw inkomen niet in aanmerking voor een sociale huurwoning van een woningcorporatie, dan kunt u contact opnemen met een andere woningcorporatie, of een sociale huurwoning zoeken bij een particuliere verhuurder met een kale maandhuur tot en met € 932,93 (in 2026). [3]\nVoor voorrang op een sociale huurwoning vraagt u bij de gemeente een urgentieverklaring aan; in sommige gemeenten heet dit een voorrangsverklaring. De regels verschillen per gemeente en staan in de huisvestingsverordening. [2] [4]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "ik-zoek-een-huurwoning#0",
+            "title": "Ik zoek een huurwoning",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/ik-zoek-een-huurwoning"
+          },
+          {
+            "number": 2,
+            "chunk_id": "wanneer-kom-ik-in-aanmerking-voor-een-sociale-huurwoning#0",
+            "title": "Kom ik in aanmerking voor een sociale huurwoning van een woningcorporatie?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/huurwoning-zoeken/wanneer-kom-ik-in-aanmerking-voor-een-sociale-huurwoning"
+          },
+          {
+            "number": 3,
+            "chunk_id": "wanneer-kom-ik-in-aanmerking-voor-een-sociale-huurwoning#1",
+            "title": "Kom ik in aanmerking voor een sociale huurwoning van een woningcorporatie?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/huurwoning-zoeken/wanneer-kom-ik-in-aanmerking-voor-een-sociale-huurwoning"
+          },
+          {
+            "number": 4,
+            "chunk_id": "wanneer-krijg-ik-een-urgentieverklaring-voor-een-huurwoning#0",
+            "title": "Krijg ik een urgentieverklaring voor een sociale huurwoning?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/huurwoning-zoeken/wanneer-krijg-ik-een-urgentieverklaring-voor-een-huurwoning"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Elke bewering wordt gedekt door het genummerde fragment waarnaar ze verwijst. [1] noemt inschrijving bij de woningcorporatie en dat dit geld kost. [2] noemt de andere organisaties en navragen bij de gemeente, de huisvestingsvergunning, de inkomensgrenzen 2026 (€ 51.537 en € 56.910) en de urgentieverklaring of voorrangsverklaring. [3] noemt een andere woningcorporatie of een particuliere verhuurder met een kale huur tot en met € 932,93. [4] noemt dat de regels per gemeente verschillen en in de huisvestingsverordening staan."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 4473,
+        "output_tokens": 580,
+        "estimated_cost_usd": 0.014746
+      }
+    },
+    {
+      "id": "q018",
+      "question": "Ik begin op mijn 30e aan een hbo-opleiding. Voldoe ik dan aan de leeftijdseis voor studiefinanciering?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-hbo-universiteit",
+      "evidence": "jonger zijn dan 30 jaar op het moment dat hun studiefinanciering ingaat",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "Studenten op een hogeschool of universiteit hebben recht op studiefinanciering tot hun 30e. [1]\nVoor hbo-studenten geldt als algemene voorwaarde dat zij jonger dan 30 jaar moeten zijn op het moment dat hun studiefinanciering ingaat, en dat de opleiding voltijds of duaal is en ten minste 1 jaar duurt. [1]\nBij een start op 30-jarige leeftijd voldoet u dus niet aan de leeftijdseis voor studiefinanciering voor een hbo-opleiding, omdat de studiefinanciering moet ingaan voordat u 30 jaar wordt. [1]\nHet levenlanglerenkrediet is een mogelijkheid voor studenten die geen recht hebben op studiefinanciering, maar dit geldt voor studenten jonger dan 57 jaar aan universiteit en hbo in Nederland. [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "studiefinanciering-hbo-universiteit#0",
+            "title": "Studiefinanciering voor studenten op een hogeschool en universiteit",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-hbo-universiteit"
+          },
+          {
+            "number": 2,
+            "chunk_id": "studiefinanciering-hbo-universiteit#1",
+            "title": "Studiefinanciering voor studenten op een hogeschool en universiteit",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-hbo-universiteit"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen ondersteund. Bron 1 noemt recht op studiefinanciering tot het 30e jaar, de voorwaarden (voltijds of duaal, minstens 1 jaar, jonger dan 30 op het moment van ingang). De conclusie dat iemand die op zijn 30e start niet voldoet, volgt hieruit. Bron 2 bevestigt het levenlanglerenkrediet voor studenten zonder recht op studiefinanciering, jonger dan 57 jaar, aan universiteit en hbo in Nederland."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2962,
+        "output_tokens": 215,
+        "estimated_cost_usd": 0.008074
+      }
+    },
+    {
+      "id": "q019",
+      "question": "Hoe ver van tevoren adviseert de Rijksoverheid om studiefinanciering voor het mbo aan te vragen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo",
+      "evidence": "Vraag minimaal 3 maanden voor uw studie begint uw studiefinanciering aan",
+      "first_relevant_rank": 3,
+      "response": {
+        "status": "answered",
+        "answer": "De Rijksoverheid adviseert om studiefinanciering in het mbo minimaal 3 maanden voordat de studie begint aan te vragen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "studiefinanciering-student-mbo#0",
+            "title": "Heb ik als mbo'er recht op studiefinanciering?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron [1] stelt letterlijk: \"Vraag minimaal 3 maanden voor uw studie begint uw studiefinanciering aan.\" Dat komt overeen met het antwoord, dat dus volledig door de bron wordt ondersteund."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1666,
+        "output_tokens": 105,
+        "estimated_cost_usd": 0.004382
+      }
+    },
+    {
+      "id": "q020",
+      "question": "Ik ben 17 en volg een bol-opleiding. Kan ik wel al een studentenreisproduct krijgen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-mbo",
+      "evidence": "Een student jonger dan 18 jaar die een bol-opleiding volgt heeft u alleen recht op een reisproduct voor studenten",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "invalid_output",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "q021",
+      "question": "Binnen hoeveel jaar moet ik mijn mbo 4-diploma halen om mijn prestatiebeurs in een gift om te laten zetten?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/middelbaar-beroepsonderwijs/wat-is-de-prestatiebeurs-in-het-middelbaar-beroepsonderwijs-mbo",
+      "evidence": "Haalt u binnen de diplomatermijn (10 jaar) uw diploma? Dan wordt de beurs omgezet in een gift",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Voor een mbo 4-opleiding (bol) wordt de prestatiebeurs omgezet in een gift als het diploma binnen de diplomatermijn van 10 jaar wordt behaald. [1] [2] [3]\nDe prestatiebeurs voor mbo niveau 3 of 4 is een lening, behalve de eerste 12 maanden aanvullende beurs, die altijd een gift is. [1] [2]\nStudenten die na 10 jaar nog niet afgestudeerd zijn, moeten de prestatiebeurs terugbetalen. [2] [3]\nHet studentenreisproduct voor mbo niveau 3 of 4 is ook een lening die bij een diploma binnen 10 jaar een gift wordt. [4]\nAls de stop van de studie in het eerste jaar vóór 1 februari plaatsvindt en niet opnieuw wordt gestart in mbo 3, hbo of wo, wordt de prestatiebeurs van de eerste maanden studie omgezet in een gift. [5]\nDe prestatiebeurs wordt voor 4 jaar verstrekt; daarna kan er nog 3 jaar worden geleend, die niet wordt omgezet in een gift. [1] [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "wat-is-de-prestatiebeurs-in-het-middelbaar-beroepsonderwijs-mbo#0",
+            "title": "Wat is de prestatiebeurs in het middelbaar beroepsonderwijs (mbo)?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/middelbaar-beroepsonderwijs/wat-is-de-prestatiebeurs-in-het-middelbaar-beroepsonderwijs-mbo"
+          },
+          {
+            "number": 2,
+            "chunk_id": "studiefinanciering-mbo#1",
+            "title": "Studiefinanciering voor studenten in het mbo",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-mbo"
+          },
+          {
+            "number": 3,
+            "chunk_id": "studiefinanciering-student-mbo#0",
+            "title": "Heb ik als mbo'er recht op studiefinanciering?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo"
+          },
+          {
+            "number": 4,
+            "chunk_id": "recht-reisproduct-studenten#0",
+            "title": "Heb ik recht op een reisproduct (ov-kaart) voor studenten?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/recht-reisproduct-studenten"
+          },
+          {
+            "number": 5,
+            "chunk_id": "wat-is-de-prestatiebeurs-in-het-middelbaar-beroepsonderwijs-mbo#1",
+            "title": "Wat is de prestatiebeurs in het middelbaar beroepsonderwijs (mbo)?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/middelbaar-beroepsonderwijs/wat-is-de-prestatiebeurs-in-het-middelbaar-beroepsonderwijs-mbo"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de genoemde bronnen ondersteund. De diplomatermijn van 10 jaar staat in bron 1, 2 en 3. Dat de eerste 12 maanden aanvullende beurs altijd een gift zijn, staat in bron 1 en 2. Terugbetalen na 10 jaar staat in bron 2 en 3. Het reisproduct als lening dat bij een diploma binnen 10 jaar een gift wordt, staat in bron 4. De eerstejaarsregeling vóór 1 februari staat in bron 5. De 4 jaar prestatiebeurs met daarna 3 jaar lenen zonder omzetting in een gift staat in bron 1 en 2."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5911,
+        "output_tokens": 628,
+        "estimated_cost_usd": 0.018102
+      }
+    },
+    {
+      "id": "q022",
+      "question": "Mijn salaris is onverwacht gedaald. Kan DUO voor de aflossing van mijn studieschuld rekenen met mijn inkomen van dit jaar?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/kan-ik-het-bedrag-van-de-maandelijkse-aflossing-studieschuld-laten-verlagen",
+      "evidence": "Dan kunt u DUO vragen bij de berekening uit te gaan van het vorige of huidige jaar",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "DUO berekent het maandbedrag voor de aflossing van de studieschuld standaard op basis van uw inkomen van 2 jaar geleden. [1]\nAls uw inkomen plotseling is verminderd, kunt u DUO vragen bij de berekening uit te gaan van het vorige of het huidige jaar. [1]\nKomt uit de berekening een lager bedrag dan wat u nu aflost, dan verlaagt DUO het maandbedrag; het nieuwe bedrag is 1 jaar geldig en na een jaar wordt uw situatie opnieuw bekeken. [1]\nU moet de verlaging van het maandbedrag zelf bij DUO aanvragen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "kan-ik-het-bedrag-van-de-maandelijkse-aflossing-studieschuld-laten-verlagen#0",
+            "title": "Kan ik het bedrag van de maandelijkse aflossing studieschuld laten verlagen?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/kan-ik-het-bedrag-van-de-maandelijkse-aflossing-studieschuld-laten-verlagen"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord worden door bron 1 ondersteund. De bron noemt de berekening op basis van het inkomen van 2 jaar geleden, de mogelijkheid om bij plotselinge inkomensdaling het vorige of huidige jaar te vragen, de verlaging bij een lager berekend bedrag en de geldigheid van 1 jaar met herbeoordeling daarna. Ook dat de verlaging moet worden aangevraagd staat in de bron (\"kunt u ... aanvragen\"). Het woord \"standaard\" is een redelijke samenvatting van de bron."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1279,
+        "output_tokens": 226,
+        "estimated_cost_usd": 0.004818
+      }
+    },
+    {
+      "id": "q023",
+      "question": "Bij wie op mijn opleiding moet ik melden dat mijn studie uitloopt door een chronische ziekte?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-handicap",
+      "evidence": "Loopt u studievertraging op, geef dit dan zo snel mogelijk door aan uw studentendecaan",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Bij studievertraging door een chronische ziekte of beperking moet u dit zo snel mogelijk melden bij uw studentendecaan. [1]\nDe decaan of begeleider kan u helpen om studievertraging te beperken of in te lopen. [1]\nVoor financiële ondersteuning bij studievertraging kunt u bij uw decaan of studieadviseur terecht; de school of universiteit vertelt u hoe u dit kunt aanvragen en aan welke voorwaarden u moet voldoen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "studiefinanciering-handicap#0",
+            "title": "Heb ik recht op extra studiefinanciering als ik studeer met een beperking of chronische ziekte?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-handicap"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door bron 1 ondersteund. De bron zegt dat studievertraging zo snel mogelijk aan de studentendecaan moet worden doorgegeven. De decaan of begeleider kan helpen om vertraging te beperken of in te lopen. Voor financiële ondersteuning kan men terecht bij de decaan of studieadviseur, en de school of universiteit vertelt hoe dit aangevraagd wordt en aan welke voorwaarden men moet voldoen."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1621,
+        "output_tokens": 187,
+        "estimated_cost_usd": 0.005112
+      }
+    },
+    {
+      "id": "q024",
+      "question": "Ik stap over van mbo naar hbo. Gaan de maanden studiefinanciering van mijn mbo af van wat ik op het hbo nog kan krijgen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo",
+      "evidence": "Deze overgestapte studenten hebben dus recht op volledige studiefinanciering die bij een hbo-studie geldt",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Nee, de studiefinanciering die u op het mbo heeft gekregen telt niet mee voor het hbo. Bij een overstap van mbo naar hbo heeft u recht op volledige studiefinanciering die bij een hbo-studie geldt. [1]\nOpgebouwde schulden uit de mbo-periode blijven wel staan bij een overstap van mbo naar hbo. [1] [2]\nDe grens van 48 maanden studiefinanciering geldt in de bronnen voor een overstap van hbo naar mbo. Voor een overstap van mbo naar hbo wordt in de bronnen geen maandengrens genoemd die de nieuwe studiefinanciering beperkt. [3] [4]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "studiefinanciering-student-mbo#1",
+            "title": "Heb ik als mbo'er recht op studiefinanciering?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo"
+          },
+          {
+            "number": 2,
+            "chunk_id": "studiefinanciering-hbo-universiteit#1",
+            "title": "Studiefinanciering voor studenten op een hogeschool en universiteit",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-hbo-universiteit"
+          },
+          {
+            "number": 3,
+            "chunk_id": "studiefinanciering-mbo#1",
+            "title": "Studiefinanciering voor studenten in het mbo",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/studiefinanciering-mbo"
+          },
+          {
+            "number": 4,
+            "chunk_id": "studiefinanciering-student-mbo#0",
+            "title": "Heb ik als mbo'er recht op studiefinanciering?",
+            "url": "https://www.rijksoverheid.nl/themas/onderwijs/studiefinanciering/vraag-en-antwoord/studiefinanciering/studiefinanciering-student-mbo"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen ondersteund. Bron 1 zegt dat de mbo-studiefinanciering niet meetelt voor het hbo en dat de student recht heeft op volledige hbo-studiefinanciering. Bron 1 en 2 vermelden dat opgebouwde schulden blijven staan. Bron 3 en 4 noemen de 48-maandengrens alleen voor een overstap van hbo naar mbo. Voor mbo naar hbo wordt in de bronnen geen maandengrens genoemd."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 4152,
+        "output_tokens": 203,
+        "estimated_cost_usd": 0.010334
+      }
+    },
+    {
+      "id": "q025",
+      "question": "Hoeveel tijd heb ik om toeslag aan te vragen nadat mijn kind voor het eerst naar de opvang gaat?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/waar-kan-ik-mijn-kinderopvangtoeslag-regelen",
+      "evidence": "Dit moet u doen binnen 3 maanden na de maand waarin uw kind voor het eerst naar de opvang gaat",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "U kunt kinderopvangtoeslag aanvragen binnen 3 maanden na de maand waarin uw kind voor het eerst naar de opvang gaat. [1]\nWacht niet te lang met aanvragen, anders loopt u kinderopvangtoeslag mis. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "waar-kan-ik-mijn-kinderopvangtoeslag-regelen#0",
+            "title": "Waar kan ik mijn kinderopvangtoeslag regelen?",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/waar-kan-ik-mijn-kinderopvangtoeslag-regelen"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 vermeldt dat kinderopvangtoeslag binnen 3 maanden na de maand waarin het kind voor het eerst naar de opvang gaat moet worden aangevraagd. Bron 1 waarschuwt ook dat u bij te lang wachten kinderopvangtoeslag misloopt. Beide beweringen in het antwoord worden dus ondersteund."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1333,
+        "output_tokens": 150,
+        "estimated_cost_usd": 0.004166
+      }
+    },
+    {
+      "id": "q026",
+      "question": "Mijn kind gaat minder uren naar de opvang. Binnen hoeveel tijd moet ik de verandering doorgeven voor de kinderopvangtoeslag?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/waar-kan-ik-mijn-kinderopvangtoeslag-regelen",
+      "evidence": "Geef binnen 4 weken wijzigingen voor uw kinderopvangtoeslag door aan de Dienst Toeslagen",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Wijzigingen in de kinderopvangtoeslag, zoals een wijziging in het aantal opvanguren, moet u binnen 4 weken doorgeven aan de Dienst Toeslagen. [1]\nHet doorgeven van wijzigingen gebeurt om te voorkomen dat u te veel toeslag ontvangt en die moet terugbetalen, of dat u toeslag misloopt. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "waar-kan-ik-mijn-kinderopvangtoeslag-regelen#0",
+            "title": "Waar kan ik mijn kinderopvangtoeslag regelen?",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/waar-kan-ik-mijn-kinderopvangtoeslag-regelen"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 zegt dat wijzigingen in het aantal opvanguren binnen 4 weken aan de Dienst Toeslagen doorgegeven moeten worden. Het doel (voorkomen van teveel ontvangen toeslag die terugbetaald moet worden, of een gemiste toeslag) staat er ook in. Beide beweringen in het antwoord worden dus ondersteund."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1389,
+        "output_tokens": 153,
+        "estimated_cost_usd": 0.004308
+      }
+    },
+    {
+      "id": "q027",
+      "question": "Met welke maximale uurprijs werd in 2025 gerekend voor kinderopvangtoeslag voor de bso?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2025",
+      "evidence": "buitenschoolse opvang | € 9,52",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "In 2025 was de maximale uurprijs voor buitenschoolse opvang (bso) € 9,52 per uur. [1]\nDe overheid vergoedt kinderopvangtoeslag tot een maximaal bedrag per uur; betaalt de ouder meer dan dat maximum, dan betaalt de ouder het verschil zelf. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "bedragen-kinderopvangtoeslag-2025#0",
+            "title": "Bedragen kinderopvangtoeslag 2025",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2025"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 noemt in de tabel voor 2025 voor buitenschoolse opvang een maximale uurprijs van € 9,52. Ook de tweede bewering klopt: de overheid vergoedt tot een maximaal bedrag per uur, en bij een hoger tarief betalen de ouders het bedrag boven de maximale uurprijs zelf."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1552,
+        "output_tokens": 140,
+        "estimated_cost_usd": 0.004504
+      }
+    },
+    {
+      "id": "q028",
+      "question": "Ons gezamenlijke toetsingsinkomen is € 60.000 in 2026. Welk vergoedingspercentage geeft de kinderopvangtoeslagtabel voor ons eerste kind?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2026",
+      "evidence": "€ 59.958 | € 61.895 | 93,9% | 95,6%",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Volgens de kinderopvangtoeslagtabel 2026 geldt bij een gezamenlijk toetsingsinkomen van € 59.958 tot en met € 61.895 een vergoedingspercentage van 93,9% voor het eerste kind. Een toetsingsinkomen van € 60.000 valt in deze schijf. [1]\nHet vergoedingspercentage voor het eerste kind is bij dit inkomen 93,9%, en de tabel noemt 93,9% als het percentage voor de schijf van € 59.958 tot en met € 61.895 in 2026. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "bedragen-kinderopvangtoeslag-2026#1",
+            "title": "Bedragen kinderopvangtoeslag 2026",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2026"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 vermeldt voor de schijf € 59.958 tot en met € 61.895 een vergoedingspercentage van 93,9% voor het eerste kind, en € 60.000 valt binnen die schijf. Het antwoord geeft dit correct weer, ook al herhaalt de tweede alinea de eerste."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1878,
+        "output_tokens": 128,
+        "estimated_cost_usd": 0.005036
+      }
+    },
+    {
+      "id": "q029",
+      "question": "Is een mondelinge afspraak met mijn gastouderbureau genoeg voor kinderopvangtoeslag?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/wanneer-heb-ik-recht-op-kinderopvangtoeslag",
+      "evidence": "U heeft een schriftelijke overeenkomst met het kindercentrum of gastouderbureau",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Om kinderopvangtoeslag te krijgen moet u een schriftelijke overeenkomst hebben met het kindercentrum of gastouderbureau; een mondelinge afspraak is in de bronnen dus niet genoeg. [1]\nIn die schriftelijke overeenkomst moeten bepaalde gegevens staan, zoals de uurprijs van de opvang en het aantal opvanguren per jaar. [1]\nHet gastouderbureau moet ook geregistreerd zijn in het Landelijk Register Kinderopvang (LRK) om in aanmerking te komen voor kinderopvangtoeslag. [1]\nNaast de overeenkomst gelden andere voorwaarden, zoals kinderbijslag of een pleegouderbijdrage voor het kind, werk, studie of een traject naar werk, en de Nederlandse nationaliteit of een geldige verblijfsvergunning. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "wanneer-heb-ik-recht-op-kinderopvangtoeslag#0",
+            "title": "Wanneer heb ik recht op kinderopvangtoeslag?",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/wanneer-heb-ik-recht-op-kinderopvangtoeslag"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door bron [1] ondersteund. De bron noemt een schriftelijke overeenkomst met het kindercentrum of gastouderbureau, met gegevens zoals de uurprijs en het aantal opvanguren per jaar. Ook de LRK-registratie en de overige voorwaarden (kinderbijslag of pleegouderbijdrage, werk, studie of traject, Nederlandse nationaliteit of verblijfsvergunning) staan erin. De conclusie dat een mondelinge afspraak niet genoeg is, volgt logisch uit het vereiste van een schriftelijke overeenkomst, en het antwoord formuleert dit voorzichtig als 'in de bronnen'."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1872,
+        "output_tokens": 263,
+        "estimated_cost_usd": 0.006374
+      }
+    },
+    {
+      "id": "q030",
+      "question": "Kan ik kinderopvangtoeslag krijgen als mijn ouderparticipatiecrèche nog in de aanloopperiode zit?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/wanneer-heb-ik-recht-op-kinderopvangtoeslag",
+      "evidence": "Gaat uw kind naar een ouderparticipatiecrèche (opc) die nog in de aanloopperiode van 1 jaar en 3 maanden zit? Dan heeft u nog geen recht op kinderopvangtoeslag",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Als uw kind naar een ouderparticipatiecrèche (opc) gaat die nog in de aanloopperiode van 1 jaar en 3 maanden zit, heeft u nog geen recht op kinderopvangtoeslag. [1]\nVoor kinderopvangtoeslag moet het kindercentrum geregistreerd zijn in het Landelijk Register Kinderopvang (LRK), en u moet een schriftelijke overeenkomst met het kindercentrum hebben. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "wanneer-heb-ik-recht-op-kinderopvangtoeslag#0",
+            "title": "Wanneer heb ik recht op kinderopvangtoeslag?",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/wanneer-heb-ik-recht-op-kinderopvangtoeslag"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 zegt letterlijk dat u bij een ouderparticipatiecrèche in de aanloopperiode van 1 jaar en 3 maanden nog geen recht heeft op kinderopvangtoeslag. Bron 1 noemt ook de voorwaarden dat het kindercentrum in het LRK geregistreerd moet zijn en dat er een schriftelijke overeenkomst moet zijn. Beide beweringen worden dus ondersteund."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1734,
+        "output_tokens": 177,
+        "estimated_cost_usd": 0.005238
+      }
+    },
+    {
+      "id": "q031",
+      "question": "Mag een verzekeraar mijn aanvraag voor alleen een aanvullende zorgverzekering afwijzen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/acceptatieplicht-zorgverzekering",
+      "evidence": "De verzekeraar mag u wel weigeren voor een aanvullende verzekering",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "Een zorgverzekeraar mag een aanvraag voor een aanvullende zorgverzekering weigeren; de acceptatieplicht geldt alleen voor de basisverzekering. [1]\nEen zorgverzekeraar bepaalt zelf welke aanvullende verzekeringen hij aanbiedt en welke voorwaarden daarvoor gelden. [1] [2]\nHoewel de verzekeraar een aanvullende verzekering mag weigeren, komt dit in de praktijk volgens de bron bijna niet voor. [2]\nEen zorgverzekeraar kan voor een aanvullende verzekering een wachttijd hanteren, waarbij u wel verzekerd bent maar bepaalde kosten pas later vergoed krijgt, bijvoorbeeld een nieuwe kroon na 6 maanden. [1] [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "acceptatieplicht-zorgverzekering#0",
+            "title": "Moet een zorgverzekeraar mij accepteren voor een zorgverzekering?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/acceptatieplicht-zorgverzekering"
+          },
+          {
+            "number": 2,
+            "chunk_id": "wat-is-een-aanvullende-zorgverzekering#0",
+            "title": "Wat is een aanvullende zorgverzekering?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-is-een-aanvullende-zorgverzekering"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord worden ondersteund door de genoemde bronnen. Weigeren van een aanvullende verzekering mag en de acceptatieplicht geldt alleen voor de basisverzekering (bron 1). Dat de verzekeraar zelf het aanbod en de voorwaarden bepaalt staat in bron 1 en bron 2. Dat weigeren in de praktijk bijna niet voorkomt staat in bron 2. De wachttijd met het voorbeeld van een kroon na 6 maanden staat in beide bronnen."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2747,
+        "output_tokens": 209,
+        "estimated_cost_usd": 0.007584
+      }
+    },
+    {
+      "id": "q032",
+      "question": "Kan ik via mijn werkgever nog collectiviteitskorting krijgen op mijn basisverzekering?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/korting-collectieve-zorgverzekering",
+      "evidence": "U kunt sinds 2023 geen korting meer krijgen op een collectieve basiszorgverzekering",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Sinds 2023 kunt u geen korting meer krijgen op een collectieve basiszorgverzekering via uw werkgever. [1]\nZorgverzekeraars kunnen wel nog zorginhoudelijke afspraken maken voor collectief verzekerden, en kortingen op aanvullende verzekeringen blijven mogelijk. [1]\nWerkgevers kunnen speciale afspraken maken met zorgverzekeraars, en u kunt bij uw werkgever navragen of u gebruik kunt maken van een collectieve verzekering. [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "korting-collectieve-zorgverzekering#0",
+            "title": "Kan ik korting krijgen op een collectieve zorgverzekering?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/korting-collectieve-zorgverzekering"
+          },
+          {
+            "number": 2,
+            "chunk_id": "polissen-zorgverzekeraar#0",
+            "title": "Welke polissen biedt de zorgverzekeraar?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/polissen-zorgverzekeraar"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen gedekt. Bron 1 zegt dat er sinds 2023 geen korting meer is op een collectieve basiszorgverzekering, dat zorginhoudelijke afspraken nog wel mogelijk zijn en dat kortingen op aanvullende verzekeringen blijven bestaan. Bron 2 zegt dat werkgevers speciale afspraken maken met zorgverzekeraars en dat u bij uw werkgever kunt navragen of u gebruik kunt maken van een collectieve verzekering."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1886,
+        "output_tokens": 208,
+        "estimated_cost_usd": 0.005852
+      }
+    },
+    {
+      "id": "q033",
+      "question": "Ik heb mijn zorgverzekering op tijd zelf opgezegd. Tot wanneer kan ik een nieuwe afsluiten zodat ik vanaf 1 januari verzekerd ben?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/overstappen-zorgverzekeraar",
+      "evidence": "U heeft tot 1 februari om een nieuwe zorgverzekering af te sluiten. U bent dan met terugwerkende kracht vanaf 1 januari verzekerd",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "U kunt uw zorgverzekering zelf opzeggen tot uiterlijk 31 december. [1] [2]\nU heeft tot 1 februari om een nieuwe zorgverzekering af te sluiten en bent dan met terugwerkende kracht vanaf 1 januari verzekerd. [1] [2]\nAls u wilt overstappen, moet u uw oude zorgverzekering vóór 1 januari opzeggen en uw nieuwe zorgverzekering vóór 1 februari afsluiten. [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "overstappen-zorgverzekeraar#0",
+            "title": "Waar moet ik aan denken als ik wil overstappen naar een andere zorgverzekeraar?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/overstappen-zorgverzekeraar"
+          },
+          {
+            "number": 2,
+            "chunk_id": "tips-zorgverzekering#1",
+            "title": "Tips waarmee u  goed verzekerd bent voor zorgkosten",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/tips-zorgverzekering"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": false,
+          "rationale": "Bron 1 ondersteunt de eerste twee beweringen, maar de eerste is toegeschreven aan [1] en [2], terwijl bron 2 niet 31 december noemt maar \"vóór 1 januari\". Dat is hetzelfde als uiterlijk 31 december, dus dit is geen echte tegenstrijdigheid. De derde bewering (opzeggen vóór 1 januari en afsluiten vóór 1 februari) staat letterlijk in bron 2. De tweede bewering staat in bron 1 en in bron 2 (vóór 1 februari afsluiten, terugwerkende kracht vanaf 1 januari). Alle beweringen worden dus gedekt, waardoor het oordeel eigenlijk grounded zou moeten zijn. Maar de bewering dat bron 2 \"uiterlijk 31 december\" noemt is niet letterlijk te vinden, en de citatie is daarmee strikt genomen onnauwkeurig."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2257,
+        "output_tokens": 352,
+        "estimated_cost_usd": 0.008034
+      }
+    },
+    {
+      "id": "q034",
+      "question": "Ik kom er met mijn zorgverzekeraar niet uit over mijn klacht. Bij welke organisatie kan ik daarna terecht?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/hoe-kan-ik-een-klacht-indienen-over-mijn-zorgverzekeraar",
+      "evidence": "Komt u er samen niet uit? Dan kunt u terecht bij de Stichting Klachten en Geschillen Zorgverzekeringen (SKGZ)",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Bespreek uw klacht eerst zelf met uw zorgverzekeraar; elke zorgverzekeraar heeft een klachtenregeling waar u naar kunt informeren. [1]\nKomt u er samen met uw zorgverzekeraar niet uit, of bent u niet tevreden over de afhandeling van uw klacht, dan kunt u terecht bij de Stichting Klachten en Geschillen Zorgverzekeringen (SKGZ). [1]\nDe SKGZ heeft een ombudsman en een geschillencommissie. De Ombudsman Zorgverzekeringen bemiddelt tussen u en uw zorgverzekeraar en doet dat gratis. [1]\nLukt bemiddeling door de ombudsman niet, dan kunt u uw klacht voorleggen aan de Geschillencommissie Zorgverzekeringen; de uitspraak van deze commissie is bindend. [1]\nDe diensten van de Geschillencommissie Zorgverzekeringen zijn niet gratis, maar als u gelijk krijgt, krijgt u de kosten terug. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "hoe-kan-ik-een-klacht-indienen-over-mijn-zorgverzekeraar#0",
+            "title": "Wat kan ik doen als ik een klacht heb over mijn zorgverzekeraar?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/hoe-kan-ik-een-klacht-indienen-over-mijn-zorgverzekeraar"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord komen overeen met bron [1]: eerst zelf bespreken en de klachtenregeling, daarna de SKGZ, de ombudsman die gratis bemiddelt, de bindende uitspraak van de geschillencommissie, en de kosten die u terugkrijgt als u gelijk krijgt. Er staat niets in dat de bron tegenspreekt of niet noemt."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1566,
+        "output_tokens": 159,
+        "estimated_cost_usd": 0.004722
+      }
+    },
+    {
+      "id": "q035",
+      "question": "Kan ik het tarief voor een gemiste ziekenhuisafspraak bij mijn zorgverzekeraar declareren?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/moet-ik-een-boete-betalen-als-ik-niet-op-een-ziekenhuisafspraak-kom",
+      "evidence": "Het wegblijftarief moet u zelf betalen. U kunt het niet bij uw zorgverzekeraar declareren",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Het wegblijftarief voor een gemiste ziekenhuisafspraak moet u zelf betalen en kunt u niet bij uw zorgverzekeraar declareren. [1]\nZiekenhuizen mogen zelf bepalen of en wanneer zij een wegblijftarief in rekening brengen; het is niet verplicht. Wel moeten ziekenhuizen patiënten vooraf informeren over een wegblijftarief, bijvoorbeeld via de website. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "moet-ik-een-boete-betalen-als-ik-niet-op-een-ziekenhuisafspraak-kom#0",
+            "title": "Moet ik een boete betalen als ik niet op een ziekenhuisafspraak kom?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/moet-ik-een-boete-betalen-als-ik-niet-op-een-ziekenhuisafspraak-kom"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Bron 1 zegt dat het wegblijftarief zelf betaald moet worden en niet bij de zorgverzekeraar gedeclareerd kan worden. Ook staat er dat ziekenhuizen zelf mogen bepalen of en wanneer zij het in rekening brengen, dat dit niet verplicht is, en dat zij patiënten vooraf moeten informeren, bijvoorbeeld via de website. Alle beweringen in het antwoord worden dus door de bron ondersteund."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1145,
+        "output_tokens": 188,
+        "estimated_cost_usd": 0.00417
+      }
+    },
+    {
+      "id": "q036",
+      "question": "Wie vraag ik om een verwijzing als een andere arts naar mijn diagnose moet kijken?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-is-een-second-opinion-in-de-zorg",
+      "evidence": "Voor een second opinion vraagt u een doorverwijzing aan uw behandelend arts",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Voor een second opinion (een tweede arts die uw diagnose of behandeling opnieuw beoordeelt) vraagt u een doorverwijzing aan bij uw behandelend arts. [1]\nUw behandelend arts moet meewerken aan de doorverwijzing, behalve als hij ernstige bezwaren heeft; in dat geval moet hij die bezwaren aan u uitleggen. [1]\nHet is aan te raden de second opinion eerst met uw behandelend arts te bespreken. [1]\nVeel zorgverzekeraars vergoeden een second opinion alleen als u een doorverwijzing heeft; regelt u die zelf, dan kunt u bij uw zorgverzekeraar navragen wat u vergoed krijgt. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "wat-is-een-second-opinion-in-de-zorg#0",
+            "title": "Hoe krijg ik een second opinion in de zorg?",
+            "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/wat-is-een-second-opinion-in-de-zorg"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord komen overeen met bronfragment 1: doorverwijzing aanvragen bij de behandelend arts, medewerkingsplicht behalve bij ernstige bezwaren die de arts moet uitleggen, eerst bespreken met de behandelend arts, en vergoeding door veel zorgverzekeraars alleen met doorverwijzing. De uitleg van second opinion in het antwoord wordt ook door de bron ondersteund. Het enige verschil is dat de bron zegt dat u eerst met uw arts bespreekt, terwijl het antwoord dit 'aan te raden' noemt. Dat is een acceptabele parafrase."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1195,
+        "output_tokens": 249,
+        "estimated_cost_usd": 0.00488
+      }
+    },
+    {
+      "id": "q037",
+      "question": "Wat is volgens de Rijksoverheid het landelijke plafond voor huurverhoging van een zelfstandige vrije-sectorwoning in 2026?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/maximale-huurverhoging-vrijesectorhuur-2026",
+      "evidence": "In 2026 mag de huur voor woningen in de vrije sector met maximaal 4,4% omhoog",
+      "first_relevant_rank": 3,
+      "response": {
+        "status": "answered",
+        "answer": "Volgens de Rijksoverheid mag de huur voor een zelfstandige vrijesectorwoning in 2026 met maximaal 4,4% omhoog, vanaf 1 januari 2026 tot 1 januari 2027. [1] [2]\nHet maximum van 4,4% is gebaseerd op de inflatie van december 2024 tot december 2025 van 3,4%, omdat het laagste percentage van inflatie en loonontwikkeling bepalend is; de loonontwikkeling in die periode was 5,1%. [1]\nDe maximale huurverhoging voor vrijesectorwoningen geldt tot 1 mei 2029, en de huurverhoging moet wel zijn afgesproken in het huurcontract; een lager percentage mag ook. [1] [2]\nHuurverhogingen na woningverbetering staan los van de jaarlijkse huurverhoging en mogen hoger zijn dan het maximum van 4,4%. [2] [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "maximale-huurverhoging-vrijesectorhuur-2026#0",
+            "title": "Wat is de maximale huurverhoging voor een vrijesectorwoning in 2026?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/maximale-huurverhoging-vrijesectorhuur-2026"
+          },
+          {
+            "number": 2,
+            "chunk_id": "welke-regels-gelden-er-voor-een-huurverhoging#0",
+            "title": "Welke regels gelden er voor een huurverhoging?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/welke-regels-gelden-er-voor-een-huurverhoging"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronnen ondersteund. Het maximum van 4,4% voor 2026 staat in bron 1 en 2, evenals de periode van 1 januari 2026 tot 1 januari 2027 (bron 2). De berekening (inflatie 3,4% + 1, loonontwikkeling 5,1%, laagste percentage bepalend) staat in bron 1. Dat het maximum tot 1 mei 2029 geldt en de verhoging in het huurcontract moet zijn afgesproken, staat in bron 2. Dat een lager percentage mag, staat in bron 1. Verhogingen na woningverbetering staan los van de jaarlijkse verhoging en mogen hoger zijn (bron 1 en 2)."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2898,
+        "output_tokens": 274,
+        "estimated_cost_usd": 0.008536
+      }
+    },
+    {
+      "id": "q038",
+      "question": "Wat is in 2026 de maximale procentuele huurverhoging voor een zelfstandige middenhuurwoning?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/maximale-huurverhoging-middenhuur-2026",
+      "evidence": "In 2026 mag de huur voor middenhuurwoningen met maximaal 6,1% omhoog",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "In 2026 mag de huurverhoging voor een zelfstandige middenhuurwoning maximaal 6,1% zijn. [1]\nDe maximale huurverhoging voor middenhuur in 2026 is gelijk aan de cao-loonontwikkeling van december 2024 tot december 2025 (5,1%) plus 1 procentpunt, dus 6,1%. [1]\nEen lager percentage dan 6,1% is ook toegestaan; de exacte huurverhoging hangt af van de afspraken in het huurcontract. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "maximale-huurverhoging-middenhuur-2026#0",
+            "title": "Wat is de maximale huurverhoging voor een middenhuurwoning in 2026?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/maximale-huurverhoging-middenhuur-2026"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen komen overeen met bron 1: het maximum van 6,1% voor een zelfstandige middenhuurwoning in 2026, de berekening (cao-loonstijging van december 2024 tot december 2025 van 5,1% plus 1 procentpunt) en de toegestane lagere verhoging, afhankelijk van de afspraken in het huurcontract."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1661,
+        "output_tokens": 144,
+        "estimated_cost_usd": 0.004762
+      }
+    },
+    {
+      "id": "q039",
+      "question": "De huur is afgelopen en mijn verhuurder verrekent achterstallige huur met de borg. Binnen hoeveel dagen krijg ik het restant terug?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/woning-huren-waarborgsom",
+      "evidence": "Bij verrekening met de waarborgsom krijgt u het resterende bedrag binnen 30 dagen na beëindiging van de huur terug",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "Een verhuurder mag de borg verrekenen met achterstallige huur, achterstallige servicekosten, achterstallige energieprestatievergoedingen en schade aan de woning die de huurder heeft veroorzaakt; andere kosten mag hij niet met de borg verrekenen. [1] [2]\nNa een verrekening met de borg krijgt de huurder het resterende bedrag binnen 30 dagen na beëindiging van de huur terug. [1] [2]\nDe verhuurder moet de huurder schriftelijk informeren over een verrekening op de waarborgsom en hiervoor een volledige kostenspecificatie sturen. [2]\nAls de huur eindigt zonder verrekening moet de verhuurder de waarborgsom binnen 14 dagen terugbetalen; bij verrekening geldt de termijn van 30 dagen voor het resterende bedrag. [1] [2]\nBent u het niet eens met de verrekening, dan kunt u het geschil voorleggen aan de kantonrechter. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "welke-extra-kosten-mag-verhuurder-bij-een-huurcontract-vragen#0",
+            "title": "Welke extra kosten mag een verhuurder bij een huurcontract vragen?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/welke-extra-kosten-mag-verhuurder-bij-een-huurcontract-vragen"
+          },
+          {
+            "number": 2,
+            "chunk_id": "woning-huren-waarborgsom#1",
+            "title": "Mag mijn verhuurder een waarborgsom vragen als ik een woning wil huren?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/woning-huren-waarborgsom"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Elke bewering in het antwoord wordt door de aangehaalde bronnen ondersteund. De verrekenbare kosten staan in bron 1 en 2: achterstallige huur, servicekosten, energieprestatievergoeding en schade door de huurder. Het resterende bedrag binnen 30 dagen na het einde van de huur staat in bron 2, en in bron 1 als 30 dagen. De schriftelijke informatieplicht en de volledige kostenspecificatie staan in bron 2. De termijn van 14 dagen zonder verrekening staat in beide bronnen. De verwijzing naar de kantonrechter staat in bron 1."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 3039,
+        "output_tokens": 239,
+        "estimated_cost_usd": 0.008468
+      }
+    },
+    {
+      "id": "q040",
+      "question": "Ik huur een kamer via de makelaar die namens de eigenaar werkt. Mag de makelaar mij bemiddelingskosten rekenen?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/huurwoning-zoeken/moet-ik-bemiddelingskosten-betalen-voor-een-kamer-of-huurwoning",
+      "evidence": "Dan mag de makelaar geen bemiddelingskosten rekenen aan u als huurder",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Als de makelaar voor de verhuurder werkt en namens de verhuurder een woning aanbiedt, mag hij geen bemiddelingskosten aan u als huurder rekenen, ook niet als de verhuurder zelf geen kosten aan de makelaar betaalt. [1]\nDit geldt volgens de bronnen voor sociale huurwoningen, vrijesectorwoningen en kamers. [1] [2]\nOok kosten die anders worden genoemd, zoals kosten voor administratie, inschrijfkosten, contractkosten of verhuurkosten, kunnen bemiddelingskosten zijn; vraag de makelaar om deze kosten uit te leggen. [1]\nHeeft u onterecht bemiddelingskosten betaald, dan kunt u deze terugvorderen bij de bemiddelaar. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "moet-ik-bemiddelingskosten-betalen-voor-een-kamer-of-huurwoning#0",
+            "title": "Moet ik bemiddelingskosten betalen voor een kamer of huurwoning?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/huurwoning-zoeken/vraag-en-antwoord/huurwoning-zoeken/moet-ik-bemiddelingskosten-betalen-voor-een-kamer-of-huurwoning"
+          },
+          {
+            "number": 2,
+            "chunk_id": "welke-extra-kosten-mag-verhuurder-bij-een-huurcontract-vragen#1",
+            "title": "Welke extra kosten mag een verhuurder bij een huurcontract vragen?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/welke-extra-kosten-mag-verhuurder-bij-een-huurcontract-vragen"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen in het antwoord worden gedekt door de bronnen. Bron 1 zegt dat een makelaar die namens de verhuurder een woning aanbiedt geen bemiddelingskosten mag rekenen, ook niet als de verhuurder de makelaar zelf niet betaalt. Bron 1 noemt sociale huurwoningen, vrije sectorwoningen en kamers, en bron 2 bevestigt dat. Bron 1 noemt de alternatieve benamingen (administratie, inschrijf-, contract- en verhuurkosten) en het advies om uitleg te vragen. Bron 1 vermeldt ook dat onterecht betaalde kosten kunnen worden teruggevorderd bij de bemiddelaar."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1860,
+        "output_tokens": 276,
+        "estimated_cost_usd": 0.00648
+      }
+    },
+    {
+      "id": "q041",
+      "question": "Is een opzegging van mijn huur per e-mail geldig als mijn verhuurder de ontvangst bevestigt?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/huur-opzeggen-woning",
+      "evidence": "U kunt ook opzeggen per e-mail of met een gewone brief. Dan is de opzegging geldig als u een bevestiging van ontvangst krijgt van de verhuurder",
+      "first_relevant_rank": 2,
+      "response": {
+        "status": "answered",
+        "answer": "Een huuropzegging per e-mail is geldig als de verhuurder een bevestiging van ontvangst geeft. [1]\nU kunt de huur opzeggen met een aangetekende brief, waarbij u een ontvangstbewijs krijgt; opzeggen per e-mail of met een gewone brief kan ook. [1]\nDe opzegtermijn is meestal 1 maand voor uw vertrek en staat in uw huurcontract; houdt u zich daar niet aan, dan is de opzegging niet gegarandeerd geldig. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "huur-opzeggen-woning#0",
+            "title": "Hoe zeg ik de huur op van mijn woning?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/huur-opzeggen-woning"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": false,
+          "rationale": "Het antwoord is grotendeels onderbouwd, maar bevat één bewering die niet door de bron wordt ondersteund. Dat een opzegging 'niet gegarandeerd geldig' is als de opzegtermijn niet wordt gehouden, staat nergens in bron 1. Die zegt alleen 'Houdt u aan de opzegtermijn', zonder iets over de geldigheid of de gevolgen bij overtreding. Dat is een onbewezen toevoeging. De overige beweringen kloppen met de bron: een bevestiging van ontvangst maakt een opzegging per e-mail geldig, een aangetekende brief levert een ontvangstbewijs op, en de opzegtermijn is meestal 1 maand en staat in het huurcontract."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1615,
+        "output_tokens": 279,
+        "estimated_cost_usd": 0.00602
+      }
+    },
+    {
+      "id": "q042",
+      "question": "Wie betaalt normaal een nieuwe cv-ketel in een huurwoning?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/welke-kosten-zijn-voor-de-huurder-en-welke-voor-de-verhuurder",
+      "evidence": "Groot onderhoud is voor rekening van de verhuurder. Bijvoorbeeld buitenschilderwerk en een nieuwe cv-ketel",
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "q043",
+      "question": "Ik wil een dakkapel laten maken op mijn huurwoning. Heb ik toestemming van de verhuurder nodig?",
+      "label_status": "reviewed",
+      "answerable": true,
+      "expected_url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/mag-ik-mijn-huurwoning-verbouwen-of-renoveren",
+      "evidence": "Voor renovatie (woningverbetering) heeft u altijd toestemming nodig van de verhuurder. Bijvoorbeeld voor: - aanpassing van uw badkamer; - een nieuwe keuken; - een aanbouw; - een dakkapel",
+      "first_relevant_rank": 1,
+      "response": {
+        "status": "answered",
+        "answer": "Voor een dakkapel op een huurwoning heeft u altijd toestemming van de verhuurder nodig, omdat renovatie (woningverbetering) altijd toestemming vereist en een dakkapel als voorbeeld wordt genoemd. [1]\nU mag niets aan de huurwoning veranderen, ook niet aan de buitenkant, tenzij het gaat om kleine aanpassingen die zonder veel kosten terug te draaien zijn; voor die kleine aanpassingen is geen toestemming nodig, maar een dakkapel valt daar niet onder. [1]\nDe verhuurder moet binnen 8 weken reageren op een verzoek om te verbouwen, en mag alleen weigeren als de woning door de veranderingen minder goed te verhuren is of in waarde daalt. [1]\nGeeft de verhuurder geen toestemming, dan kunt u naar de rechter gaan; de rechter beoordeelt of de verandering redelijk is en of die meer genot geeft om te wonen. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "mag-ik-mijn-huurwoning-verbouwen-of-renoveren#0",
+            "title": "Mag ik mijn huurwoning verbouwen of renoveren?",
+            "url": "https://www.rijksoverheid.nl/themas/bouwen-en-wonen/woning-huren/vraag-en-antwoord/woning-huren/mag-ik-mijn-huurwoning-verbouwen-of-renoveren"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door bron [1] ondersteund. Voor renovatie is altijd toestemming nodig en de dakkapel staat als voorbeeld in de lijst. Kleine aanpassingen die zonder veel kosten terug te draaien zijn, vragen geen toestemming. De verhuurder moet binnen 8 weken reageren en mag alleen weigeren als de woning minder goed te verhuren is of in waarde daalt. Bij weigering kan de huurder naar de rechter, die beoordeelt of de verandering redelijk is en of die meer woongenot geeft. De zin dat een dakkapel niet onder kleine aanpassingen valt is een redelijke gevolgtrekking uit de bron, omdat de dakkapel expliciet onder renovatie valt."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1698,
+        "output_tokens": 286,
+        "estimated_cost_usd": 0.006256
+      }
+    },
+    {
+      "id": "u001",
+      "question": "Hoeveel vermogen mag ik in 2026 als alleenstaande precies hebben om nog huurtoeslag te krijgen?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "u002",
+      "question": "Hoeveel zorgtoeslag krijg ik in 2026 per maand als alleenstaande met een toetsingsinkomen van € 27.000?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "u003",
+      "question": "Wat is in 2026 het rentepercentage voor een studieschuld onder de terugbetalingsregels SF35?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "u004",
+      "question": "Wat is het telefoonnummer van DUO?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "u005",
+      "question": "Hoeveel kost een parkeervergunning in Amsterdam?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "u006",
+      "question": "Mijn kind gaat op maandag naar de bso. Hoeveel kinderopvangtoeslag krijg ik daarvoor precies per maand?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "answered",
+        "answer": "De exacte hoogte van de kinderopvangtoeslag per maand voor bso is niet te bepalen op basis van de bronnen, omdat die afhangt van het inkomen, het aantal kinderen en het aantal opvanguren; een proefberekening op toeslagen.nl of de website van de Belastingdienst geeft het bedrag. [1] [2] [3]\nVoor bso geldt in 2026 een maximale uurprijs van 9,98 euro waarover kinderopvangtoeslag kan worden berekend; tarieven boven dit maximum betaalt de ouder zelf. [1]\nPer kind kan kinderopvangtoeslag worden ontvangen voor maximaal 230 uur per kalendermaand, met een maximum van 2760 uur per jaar in 2026. [1] [2]\nVoorwaarden zijn onder meer dat de bso geregistreerd is in het Landelijk Register Kinderopvang, dat er een schriftelijke overeenkomst met de opvang is, dat u kinderbijslag ontvangt of het kind in belangrijke mate onderhoudt, en dat u en uw eventuele toeslagpartner werken, studeren of een traject naar werk volgen. [4]\nEen aanvraag voor kinderopvangtoeslag moet binnen 3 maanden na de maand waarin het kind voor het eerst naar de opvang gaat, worden ingediend via toeslagen.nl. [3]\nOuders betalen altijd een eigen bijdrage, namelijk de kosten die overblijven na aftrek van de kinderopvangtoeslag. [2]",
+        "citations": [
+          {
+            "number": 1,
+            "chunk_id": "bedragen-kinderopvangtoeslag-2026#0",
+            "title": "Bedragen kinderopvangtoeslag 2026",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2026"
+          },
+          {
+            "number": 2,
+            "chunk_id": "kosten-kinderopvang-in-nederland#0",
+            "title": "Kosten kinderopvang in Nederland",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/kosten-kinderopvang-in-nederland"
+          },
+          {
+            "number": 3,
+            "chunk_id": "waar-kan-ik-mijn-kinderopvangtoeslag-regelen#0",
+            "title": "Waar kan ik mijn kinderopvangtoeslag regelen?",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/waar-kan-ik-mijn-kinderopvangtoeslag-regelen"
+          },
+          {
+            "number": 4,
+            "chunk_id": "wanneer-heb-ik-recht-op-kinderopvangtoeslag#0",
+            "title": "Wanneer heb ik recht op kinderopvangtoeslag?",
+            "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag/vraag-en-antwoord/kinderopvangtoeslag/wanneer-heb-ik-recht-op-kinderopvangtoeslag"
+          }
+        ]
+      },
+      "judgment": {
+        "verdict": {
+          "grounded": true,
+          "rationale": "Alle beweringen worden door de bronfragmenten ondersteund. Dat de exacte hoogte afhangt van inkomen, aantal kinderen en soort opvang staat in bron 1 en 2. Het aantal opvanguren noemt het antwoord ook als factor, wat bron 3 en 4 indirect dekken en niet tegenspreekt. Verder kloppen de proefberekening op toeslagen.nl of de Belastingdienst (bron 1 en 3), de bso-uurprijs van 9,98 euro in 2026 en dat ouders het deel boven het maximum zelf betalen (bron 1). Ook kloppen het maximum van 230 uur per maand en 2760 uur per jaar (bron 1 en 2), de voorwaarden (LRK, schriftelijke overeenkomst, kinderbijslag of onderhoud, werken of studeren; bron 4), de aanvraagtermijn van 3 maanden (bron 3) en de eigen bijdrage (bron 2)."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 4821,
+        "output_tokens": 361,
+        "estimated_cost_usd": 0.013252
+      }
+    },
+    {
+      "id": "u007",
+      "question": "Wat is de gemiddelde wachttijd in maanden voor een sociale huurwoning in Utrecht?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    },
+    {
+      "id": "u008",
+      "question": "Wat kost de goedkoopste basispolis van zorgverzekeraar CZ in 2027 per maand?",
+      "label_status": "reviewed",
+      "answerable": false,
+      "expected_url": null,
+      "evidence": null,
+      "first_relevant_rank": null,
+      "response": {
+        "status": "insufficient_context",
+        "answer": "Ik weet het niet op basis van de beschikbare bronnen.",
+        "citations": []
+      },
+      "judgment": null
+    }
+  ]
+}
