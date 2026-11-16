@@ -42,4 +42,8 @@ Dutch-language RAG over Dutch government information, built as a portfolio proje
 ## Commands
 - `uv run python -m rag.ingest` — fetch + clean source pages
 - `uv run python -m evals.retrieval_eval` — retrieval metrics table
+- `uv run --env-file .env uvicorn rag.api:app` — serve `POST /ask` with `{"question":"..."}`
+- `uv run --env-file .env python -m evals.answer_eval` — manual paid run over the question set
+  (`--reviewed-only` after review). Check the verdicts against the cited sources in
+  `logs/answer_eval.json` and keep draft and reviewed results distinguishable.
 - `uv run pytest` / `uv run ruff check .` / `uv run ruff format .`
