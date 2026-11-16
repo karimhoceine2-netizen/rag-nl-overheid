@@ -4,6 +4,7 @@ from fastapi.testclient import TestClient
 
 from rag.api import create_app
 from rag.corpus import load_chunks
+from rag.limits import DailyLimit
 from rag.llm.base import Completion, LLMError, Usage
 from rag.query import QueryService
 from rag.retrievers.bm25 import BM25Retriever
@@ -61,3 +62,28 @@ def test_api_logs_answer_abstention_and_provider_error(tmp_path):
     assert records[1]["input_tokens"] == 20
     assert records[2]["input_tokens"] is None
     assert all("question" not in record for record in records)
+
+
+def test_search_is_free_and_ask_reports_missing_key(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    app = create_app(retriever=BM25Retriever(load_chunks()))
+    with TestClient(app) as client:
+        hits = client.post("/search", json={"question": "eigen risico huisarts", "k": 3})
+        assert hits.status_code == 200
+        assert len(hits.json()) == 3
+        assert hits.json()[0]["url"].startswith("https://www.rijksoverheid.nl/")
+        assert client.post("/search", json={"question": "x", "k": 50}).status_code == 422
+
+        missing = client.post("/ask", json={"question": "eigen risico huisarts"})
+        assert missing.status_code == 503
+        assert "ANTHROPIC_API_KEY" in missing.json()["detail"]
+
+
+def test_ask_returns_429_after_daily_limit(tmp_path):
+    service = QueryService(BM25Retriever(load_chunks()), FakeClient(), tmp_path / "q.jsonl")
+    with TestClient(create_app(service, daily_limit=DailyLimit(1))) as client:
+        assert client.post("/ask", json={"question": "eigen risico huisarts"}).status_code == 200
+        blocked = client.post("/ask", json={"question": "eigen risico huisarts"})
+        assert blocked.status_code == 429
+        # Only the allowed call reached the model and the log.
+        assert len((tmp_path / "q.jsonl").read_text().splitlines()) == 1
