@@ -17,6 +17,7 @@ from rag.retrievers.base import Retriever
 # Multilingual MiniLM trained on mMARCO (MS MARCO machine-translated into 14 languages,
 # including Dutch). Small enough (~118M parameters) to run on CPU in CI.
 DEFAULT_MODEL = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
+DEFAULT_REVISION = "1427fd652930e4ba29e8149678df786c240d8825"
 
 
 class Scorer(Protocol):
@@ -30,7 +31,11 @@ class CrossEncoderScorer:
         from sentence_transformers import CrossEncoder  # lazy: heavy import (torch)
 
         self.model_name = model_name
-        self._model = CrossEncoder(model_name, device=device)
+        self._model = CrossEncoder(
+            model_name,
+            device=device,
+            revision=DEFAULT_REVISION if model_name == DEFAULT_MODEL else None,
+        )
 
     def score(self, query: str, texts: list[str]) -> list[float]:
         pairs = [(query, text) for text in texts]
