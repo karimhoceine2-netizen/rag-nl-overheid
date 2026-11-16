@@ -35,25 +35,38 @@ jobs:
 
   docker:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - run: docker build -t rag-nl-overheid:ci .
-      - name: Check container startup
+      # No .env in CI: this also proves a clean clone starts with one command.
+      - name: Start with docker compose
+        run: docker compose up --build --detach --wait --wait-timeout 300
+      - name: Smoke test endpoints
         run: |
-          docker run --detach --name rag-smoke \
-            --env ANTHROPIC_API_KEY=ci-placeholder \
-            --publish 127.0.0.1:8000:8000 rag-nl-overheid:ci
-          for attempt in {1..60}; do
-            if curl --fail --silent --max-time 2 http://127.0.0.1:8000/health; then
-              exit 0
-            fi
-            if [ "$(docker inspect --format '{{.State.Running}}' rag-smoke)" != true ]; then
-              break
-            fi
-            sleep 3
-          done
-          docker logs rag-smoke
-          exit 1
+          curl --fail --silent http://127.0.0.1:8000/health
+          curl --fail --silent http://127.0.0.1:8000/search \
+            -H 'Content-Type: application/json' \
+            -d '{"question":"Valt een bezoek aan de huisarts onder mijn eigen risico?","k":3}' \
+            | python3 -c 'import json,sys; hits=json.load(sys.stdin); assert len(hits)==3, hits'
+          code=$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            http://127.0.0.1:8000/ask -H 'Content-Type: application/json' \
+            -d '{"question":"test"}')
+          test "$code" = 503
+      # Measured numbers for the README and the Cloud Run memory setting.
+      - name: Record image size and peak memory
+        if: ${{ !cancelled() }}
+        run: |
+          size=$(docker image inspect rag-nl-overheid:local --format '{{.Size}}')
+          peak=$(docker compose exec -T api cat /sys/fs/cgroup/memory.peak)
+          {
+            echo "### Container measurements"
+            echo "| Metric | Value |"
+            echo "|---|---:|"
+            echo "| Image size | $((size / 1024 / 1024)) MiB |"
+            echo "| Peak memory (startup + 1 search) | $((peak / 1024 / 1024)) MiB |"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Show logs on failure
+        if: ${{ failure() }}
+        run: docker compose logs
