@@ -9,7 +9,8 @@ dist/
 *.egg-info
 
 # Secrets — never commit; see .env.example
-.env
+.env*
+!.env.example
 
 # Raw HTML is ~250 KB per page (mostly site chrome). We commit the manifest and the cleaned
 # text snapshot (data/docs.jsonl) instead; `uv run python -m rag.ingest` re-creates raw/.

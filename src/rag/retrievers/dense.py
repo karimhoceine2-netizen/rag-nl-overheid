@@ -12,6 +12,7 @@ import numpy as np
 from rag.models import Chunk
 
 DEFAULT_MODEL = "intfloat/multilingual-e5-small"
+DEFAULT_REVISION = "614241f622f53c4eeff9890bdc4f31cfecc418b3"
 # CPU on purpose: GPU/MPS kernels can give slightly different floats (and so different tie
 # orders) per machine, and CI has no GPU. At ~200 chunks CPU is fast enough.
 DEFAULT_DEVICE = "cpu"
@@ -36,7 +37,11 @@ class E5Encoder:
         from sentence_transformers import SentenceTransformer  # lazy: heavy import (torch)
 
         self.model_name = model_name
-        self._model = SentenceTransformer(model_name, device=device)
+        self._model = SentenceTransformer(
+            model_name,
+            device=device,
+            revision=DEFAULT_REVISION if model_name == DEFAULT_MODEL else None,
+        )
 
     def _encode(self, texts: list[str]) -> np.ndarray:
         # normalize_embeddings=True -> unit vectors, so dot product == cosine similarity.
