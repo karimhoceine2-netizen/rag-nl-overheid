@@ -35,7 +35,7 @@ uv run --locked python -m evals.retrieval_eval \
 ```
 
 GitHub Actions draait bij iedere push en pull request de tests, de retrievalvergelijking en
-een Docker-starttest. De retrievalcontrole gebruikt voor iedere methode de ondergrenzen voor
+een starttest met Docker Compose. De retrievalcontrole gebruikt voor iedere methode de ondergrenzen voor
 Hit@5 en MRR@10 uit [thresholds.json](evals/thresholds.json). CI gebruikt de goedgekeurde
 vraagset en bewaart het rapport als workflow-artifact.
 
@@ -64,15 +64,38 @@ Het veld `answer` bevat het antwoord. Bij `citations` staan de bijbehorende bron
 De querylog bevat fragment-ID's, latency, tokengebruik en een kostenraming. Het standaardpad
 is `logs/queries.jsonl`.
 
-### Docker
-
-Vul eerst `.env` in zoals hierboven. Als Uvicorn nog lokaal draait, stop het proces met
-**Ctrl+C** voordat je dezelfde poort gebruikt.
+`POST /search` geeft alleen de opgehaalde fragmenten terug, zonder taalmodel. Dat endpoint
+kost niets en werkt ook zonder API-key.
 
 ```bash
-docker build -t rag-nl-overheid .
-docker run --rm --env-file .env -p 127.0.0.1:8000:8000 \
-  -v rag-nl-logs:/app/logs rag-nl-overheid
+curl -fsS http://127.0.0.1:8000/search \
+  -H 'Content-Type: application/json' \
+  -d '{"question":"Valt een bezoek aan de huisarts onder mijn eigen risico?","k":3}'
+```
+
+### Docker
+
+Met [Docker](https://docs.docker.com/get-docker/) start één opdracht de API vanuit een verse
+clone. Als Uvicorn nog lokaal draait, stop het proces met **Ctrl+C** voordat je dezelfde poort
+gebruikt.
+
+```bash
+docker compose up --build
+```
+
+De image bevat het embeddingmodel al, zodat een koude start niets downloadt. Zonder `.env`
+werken `/health` en `/search`, en geeft `/ask` een 503 met uitleg. Voor antwoorden kopieer je
+`.env.example` naar `.env` en vul je `ANTHROPIC_API_KEY` in. De container draait als
+niet-rootgebruiker en heeft een healthcheck op `/health`. CI start de container op dezelfde
+manier en meldt de imagegrootte en het piekgeheugen in de samenvatting van de workflow.
+
+### Cloud Run
+
+[docs/DEPLOY.md](docs/DEPLOY.md) beschrijft de eenmalige setup, het deployscript, de
+kostenbegrenzing en het opruimen. De deploy zelf is één opdracht.
+
+```bash
+GCP_PROJECT=jouw-project-id ./scripts/deploy_cloud_run.sh
 ```
 
 ## Antwoorden beoordelen
