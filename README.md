@@ -88,6 +88,9 @@ werken `/health` en `/search`, en geeft `/ask` een 503 met uitleg. Voor antwoord
 `.env.example` naar `.env` en vul je `ANTHROPIC_API_KEY` in. De container draait als
 niet-rootgebruiker en heeft een healthcheck op `/health`. CI start de container op dezelfde
 manier en meldt de imagegrootte en het piekgeheugen in de samenvatting van de workflow.
+In [run 43938762665](https://github.com/karimhoceine2-netizen/rag-nl-overheid/actions/runs/43938762665)
+was de image 1900 MiB en het piekgeheugen 1226 MiB na het opstarten en één zoekvraag.
+Daarom krijgt de Cloud Run-dienst 2 GiB geheugen.
 
 ### Cloud Run
 
