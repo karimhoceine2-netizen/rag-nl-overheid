@@ -1,0 +1,18 @@
+# One command from a clean clone: `docker compose up --build`.
+# Only one service: the app keeps its index in memory and needs no database.
+services:
+  api:
+    build: .
+    image: rag-nl-overheid:local
+    ports:
+      - "127.0.0.1:8000:8000"
+    env_file:
+      # Optional: without .env the API still starts; /ask then answers 503.
+      - path: .env
+        required: false
+    volumes:
+      - logs:/app/logs
+    restart: unless-stopped
+
+volumes:
+  logs:

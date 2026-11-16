@@ -6,3 +6,8 @@
 .ruff_cache
 data/raw
 logs
+tests
+evals
+docs
+scripts
+*.md
