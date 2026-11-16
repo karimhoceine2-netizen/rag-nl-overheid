@@ -63,6 +63,16 @@ Cloud Build bouwt de `Dockerfile` in de cloud, dus lokaal Docker is hiervoor nie
 GCP_PROJECT=jouw-project-id ./scripts/deploy_cloud_run.sh
 ```
 
+Faalt de eerste build met een permissiefout, geef het compute-serviceaccount dan de rol
+waarmee Cloud Run vanuit broncode mag bouwen. In nieuwere projecten bouwt Cloud Build met dat
+account.
+
+```bash
+gcloud projects add-iam-policy-binding "$GCP_PROJECT" \
+  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+  --role=roles/run.builder
+```
+
 Het script toont aan het eind de URL van de dienst. Controleer de dienst daarna.
 
 ```bash

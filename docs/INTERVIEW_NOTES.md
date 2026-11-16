@@ -36,6 +36,9 @@ Plain-language notes per upgrade: what I built, why, the trade-offs, and questio
 - **The daily cap lives in memory.** It resets when the container restarts. That is fine as a
   first brake because the real limit is the spending cap on a separate Anthropic key. A
   durable counter would need shared storage such as Firestore or Redis.
+- **The query log is not durable on Cloud Run.** It is written inside the container, so it
+  disappears when the instance scales to zero. For a demo that is fine; for real use I would
+  log to stdout so Cloud Logging keeps it.
 - **No build cache mounts.** BuildKit cache mounts speed up local rebuilds, but I left them out
   so the same Dockerfile builds unchanged in Cloud Build.
 - **Manual deploy, not deploy-on-push.** Deploying from GitHub Actions needs keyless auth
