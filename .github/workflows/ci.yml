@@ -1,0 +1,59 @@
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  retrieval:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.13.6"
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run --locked ruff check .
+      - run: uv run --locked ruff format --check .
+      - run: uv run --locked pytest -q
+      - name: Check retrieval floors
+        run: >-
+          uv run --locked python -m evals.retrieval_eval
+          --thresholds evals/thresholds.json --out-dir logs/ci-retrieval
+      - name: Upload retrieval reports
+        if: ${{ !cancelled() && hashFiles('logs/ci-retrieval/retrieval.json') != '' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: retrieval-reports
+          path: logs/ci-retrieval/
+          if-no-files-found: error
+
+  docker:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: docker build -t rag-nl-overheid:ci .
+      - name: Check container startup
+        run: |
+          docker run --detach --name rag-smoke \
+            --env ANTHROPIC_API_KEY=ci-placeholder \
+            --publish 127.0.0.1:8000:8000 rag-nl-overheid:ci
+          for attempt in {1..60}; do
+            if curl --fail --silent --max-time 2 http://127.0.0.1:8000/health; then
+              exit 0
+            fi
+            if [ "$(docker inspect --format '{{.State.Running}}' rag-smoke)" != true ]; then
+              break
+            fi
+            sleep 3
+          done
+          docker logs rag-smoke
+          exit 1

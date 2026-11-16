@@ -18,6 +18,9 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
+from typing import Literal, get_args
+
+from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, ValidationError
 
 from evals.metrics import first_relevant_rank, hit_at_k, mrr
 from evals.questions import QUESTIONS_PATH, Question, check_labels, is_relevant, load_questions
@@ -37,7 +40,26 @@ RESULTS_DIR = Path("evals/results")
 
 # Order = order of the rows in the results table. Each stage builds on the previous ones:
 # hybrid = RRF(bm25, dense), rerank = cross-encoder over the hybrid top 20.
-STAGE_NAMES = ("bm25", "dense", "hybrid", "rerank")
+Stage = Literal["bm25", "dense", "hybrid", "rerank"]
+STAGE_NAMES = get_args(Stage)
+
+
+class Thresholds(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    hit_at_5: float = Field(alias="hit@5", ge=0, le=1)
+    mrr_at_10: float = Field(alias="mrr@10", ge=0, le=1)
+
+
+def check_thresholds(
+    stages: dict[str, dict[str, float]], thresholds: dict[Stage, Thresholds]
+) -> list[str]:
+    failures = []
+    for stage, metrics in stages.items():
+        for name, minimum in thresholds[stage].model_dump(by_alias=True).items():
+            if metrics[name] < minimum:
+                failures.append(f"{stage} {name}: {metrics[name]:.3f} < {minimum:.3f}")
+    return failures
 
 
 def build_retrievers(names: list[str], chunks: list[Chunk]) -> dict[str, Retriever]:
@@ -158,12 +180,25 @@ def main() -> int:
     parser.add_argument("--questions", type=Path, default=QUESTIONS_PATH)
     parser.add_argument("--reviewed-only", action="store_true")
     parser.add_argument("--out-dir", type=Path, default=RESULTS_DIR)
+    parser.add_argument("--thresholds", type=Path, help="fail below the minimum retrieval scores")
     args = parser.parse_args()
 
     stage_names = list(STAGE_NAMES) if args.stages == "all" else args.stages.split(",")
     unknown = [s for s in stage_names if s not in STAGE_NAMES]
     if unknown:
         parser.error(f"unknown stage(s) {unknown}; choose from {list(STAGE_NAMES)}")
+
+    thresholds = None
+    if args.thresholds is not None:
+        try:
+            thresholds = TypeAdapter(dict[Stage, Thresholds]).validate_json(
+                args.thresholds.read_bytes()
+            )
+        except (OSError, ValidationError) as exc:
+            parser.error(f"invalid threshold file: {exc}")
+        missing = sorted(set(stage_names) - thresholds.keys())
+        if missing:
+            parser.error(f"missing thresholds for {', '.join(missing)}")
 
     chunks = load_chunks()
     all_questions = load_questions(args.questions)
@@ -210,6 +245,12 @@ def main() -> int:
     detail_lines = [json.dumps(d, ensure_ascii=False) for d in all_details]
     (args.out_dir / "retrieval_details.jsonl").write_text("\n".join(detail_lines) + "\n")
     print(table)
+    if thresholds is not None:
+        failures = check_thresholds(results["stages"], thresholds)
+        if failures:
+            print("Retrieval scores below thresholds:", *failures, sep="\n  ", file=sys.stderr)
+            return 1
+        print("All retrieval scores meet their thresholds.")
     return 0
 
 
