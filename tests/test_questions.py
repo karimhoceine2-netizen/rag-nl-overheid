@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from evals.questions import Question, check_labels, is_relevant, load_questions
+from evals.questions import Question, check_labels, is_relevant, load_question_set, load_questions
 from rag.models import Chunk
 
 URL = "https://x.nl/zorgtoeslag"
@@ -43,3 +43,12 @@ def test_questions_file_is_valid():
     questions = load_questions()
     assert len(questions) >= 20
     assert any(not x.answerable for x in questions)
+
+
+def test_question_sets_are_versioned():
+    v1, info1 = load_question_set("v1")
+    v2, info2 = load_question_set("v2")
+    assert info1["question_set"] == "v1" and len(info1["question_set_sha256"]) == 12
+    assert info1["question_set_sha256"] != info2["question_set_sha256"]
+    # v2 extends v1 without changing it.
+    assert [q.id for q in v2[: len(v1)]] == [q.id for q in v1]

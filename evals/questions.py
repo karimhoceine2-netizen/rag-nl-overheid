@@ -1,5 +1,6 @@
 """Evaluation questions: schema, loading and the relevance rule."""
 
+import hashlib
 from pathlib import Path
 from typing import Literal
 
@@ -37,6 +38,32 @@ def load_questions(path: Path = QUESTIONS_PATH) -> list[Question]:
     if duplicates:
         raise ValueError(f"duplicate question ids: {sorted(duplicates)}")
     return questions
+
+
+GATE_QUESTIONS_PATH = Path("evals/gate_questions.jsonl")
+
+# Versioned question sets. Results record the version and a hash of the files, so a number
+# can always be traced back to the exact questions it was measured on. Never edit a released
+# version in place: add questions in a new version instead.
+QUESTION_SETS: dict[str, list[Path]] = {
+    "v1": [QUESTIONS_PATH],  # 51 questions, 2026-11-16
+    "v2": [QUESTIONS_PATH, GATE_QUESTIONS_PATH],  # + 61 questions, 2026-11-17
+}
+DEFAULT_SET = "v2"
+
+
+def load_question_set(name: str = DEFAULT_SET) -> tuple[list[Question], dict[str, str]]:
+    """Load a versioned question set and describe it (version + sha256 of its files)."""
+    paths = QUESTION_SETS[name]
+    digest = hashlib.sha256()
+    questions: list[Question] = []
+    for path in paths:
+        digest.update(path.read_bytes())
+        questions += load_questions(path)
+    ids = [q.id for q in questions]
+    if len(ids) != len(set(ids)):
+        raise ValueError(f"question set {name} has duplicate ids")
+    return questions, {"question_set": name, "question_set_sha256": digest.hexdigest()[:12]}
 
 
 def is_relevant(chunk: Chunk, question: Question) -> bool:

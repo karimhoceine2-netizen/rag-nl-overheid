@@ -9,7 +9,7 @@ from pathlib import Path
 from threading import Lock
 
 from rag.generate import DEFAULT_TOP_K, Answer, GeneratedAnswer, generate_answer
-from rag.llm.base import LLMClient, LLMError
+from rag.llm.base import LLMClient, LLMError, Usage
 from rag.models import Chunk
 from rag.retrievers.base import Retriever
 
@@ -20,6 +20,7 @@ DEFAULT_LOG_PATH = Path("logs/queries.jsonl")
 class QueryResult:
     answer: Answer
     chunks: list[Chunk]
+    usage: Usage | None = None  # None when no language model was called
 
 
 class QueryService:
@@ -47,7 +48,8 @@ class QueryService:
             chunks = self.retriever.search(question, self.top_k)
             generated = generate_answer(self._client, question, chunks)
             status = generated.answer.status
-            return QueryResult(generated.answer, chunks)
+            completion = generated.completion
+            return QueryResult(generated.answer, chunks, completion.usage if completion else None)
         except LLMError:
             status = "provider_error"
             raise

@@ -25,12 +25,11 @@ from sklearn.metrics import confusion_matrix, precision_recall_fscore_support
 from sklearn.model_selection import RepeatedStratifiedKFold, train_test_split
 from sklearn.preprocessing import StandardScaler
 
-from evals.questions import QUESTIONS_PATH, Question, load_questions
+from evals.questions import Question, load_question_set
 from rag.corpus import load_chunks
 from rag.gate import DEFAULT_GATE_PATH, FEATURES, AnswerabilityGate, extract_features
 from rag.retrievers import BM25Retriever, DenseRetriever
 
-GATE_QUESTIONS_PATH = Path("evals/gate_questions.jsonl")
 RESULTS_DIR = Path("evals/results")
 SEED = 42
 TEST_SIZE = 0.25
@@ -40,7 +39,7 @@ TOP_K = 5
 
 
 def load_dataset() -> list[Question]:
-    questions = load_questions(QUESTIONS_PATH) + load_questions(GATE_QUESTIONS_PATH)
+    questions, _ = load_question_set("v2")
     return [q for q in questions if q.status == "reviewed"]
 
 
