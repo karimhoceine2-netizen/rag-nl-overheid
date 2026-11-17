@@ -20,6 +20,10 @@ De eerste laag is de belangrijkste:
 
 `/health` en `/search` roepen geen taalmodel aan en zijn gratis.
 
+De dienst gebruikt `--no-cpu-throttling`: een instantie houdt haar CPU zolang ze draait, zodat
+het model na het openen van de poort snel laadt. Google rekent dan voor de hele levensduur van
+de instantie. Zonder verkeer stopt de instantie na enige tijd en kost de dienst niets.
+
 ## Eenmalige setup
 
 Installeer de [gcloud CLI](https://cloud.google.com/sdk/docs/install) (op macOS:

@@ -8,13 +8,16 @@ REGION="${GCP_REGION:-europe-west4}"  # Eemshaven, the Netherlands
 SERVICE="${SERVICE:-rag-nl-overheid}"
 
 # min-instances 0: scale to zero, so idle time costs nothing (first request waits).
+# no-cpu-throttling + 2 CPUs: the model loads in a background thread after the port opens,
+# and Cloud Run would otherwise give that thread almost no CPU between requests.
 # max-instances 1: caps cost and keeps the in-memory daily /ask limit global.
 gcloud run deploy "$SERVICE" \
   --project "$GCP_PROJECT" \
   --region "$REGION" \
   --source . \
   --memory 2Gi \
-  --cpu 1 \
+  --cpu 2 \
+  --no-cpu-throttling \
   --cpu-boost \
   --min-instances 0 \
   --max-instances 1 \
