@@ -31,8 +31,14 @@ Plain-language notes per upgrade: what I built, why, the trade-offs, and questio
   moving part without solving a problem. With many thousands of documents I would move the
   vectors to something like pgvector.
 - **Cold start.** Scale-to-zero means the first request after idle time waits for the
-  container to start and the model to load. Keeping one instance warm removes that but costs
-  money every month.
+  container to start and the model to load. Three changes made this work: the corpus
+  embeddings are computed at build time and shipped in the image (local startup went from
+  about 16 s to 5.5 s, CI peak memory from 1226 to 781 MiB); the model loads in a background
+  thread, so the port opens at once and the first request waits instead of being rejected
+  with a 429 by Cloud Run; and the service gets 2 CPUs without throttling, so loading is not
+  slowed down after the port opens. A measured cold start went from 49.4 s to 45.0 s; a warm
+  search takes about 0.1 s. Keeping one instance warm would remove the wait but costs money
+  every month, so I accepted it for a demo.
 - **The daily cap lives in memory.** It resets when the container restarts. That is fine as a
   first brake because the real limit is the spending cap on a separate Anthropic key. A
   durable counter would need shared storage such as Firestore or Redis.
