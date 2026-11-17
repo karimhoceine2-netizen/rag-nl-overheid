@@ -1,15 +1,15 @@
 | stage | hit@1 | hit@3 | hit@5 | hit@10 | mrr@10 | latency_ms_mean | latency_ms_p95 |
 |---|---|---|---|---|---|---|---|
-| bm25 | 0.651 | 0.837 | 0.930 | 0.930 | 0.756 | 0.6 | 1.3 |
-| dense | 0.651 | 0.930 | 0.977 | 0.977 | 0.790 | 22.4 | 32.2 |
-| hybrid | 0.651 | 0.907 | 0.907 | 0.953 | 0.779 | 24.0 | 36.2 |
-| rerank | 0.744 | 0.907 | 0.930 | 0.977 | 0.834 | 1645.5 | 2234.7 |
+| bm25 | 0.743 | 0.892 | 0.959 | 0.959 | 0.825 | 0.5 | 0.7 |
+| dense | 0.770 | 0.959 | 0.986 | 0.986 | 0.864 | 10.4 | 12.1 |
+| hybrid | 0.770 | 0.946 | 0.946 | 0.973 | 0.858 | 10.9 | 12.7 |
+| rerank | 0.838 | 0.946 | 0.959 | 0.986 | 0.897 | 1128.0 | 1160.4 |
 
-n = 43 answerable questions (43 reviewed, 0 draft); 130 documents, 210 chunks.
+n = 74 answerable questions (74 reviewed, 0 draft); 130 documents, 210 chunks.
 Latency = milliseconds per query on CPU, including the stages a stage builds on (hybrid includes bm25 + dense). Machine: arm64 Darwin 25.6.0, Python 3.12.16.
 Models: {'dense': 'intfloat/multilingual-e5-small', 'rerank': 'cross-encoder/mmarco-mMiniLMv2-L12-H384-v1'}.
-Generated 2026-11-16T17:56:46 at commit `0d73ee6`.
-Reproduce: `uv run python -m evals.retrieval_eval --reviewed-only --out-dir logs/retrieval_final`
+Generated 2026-11-17T11:09:43 at commit `27d95bf`.
+Reproduce: `uv run python -m evals.retrieval_eval`
 
 ### Rank of the first relevant chunk per question
 
@@ -58,3 +58,34 @@ Reproduce: `uv run python -m evals.retrieval_eval --reviewed-only --out-dir logs
 | q041 | 1 | 2 | 1 | 1 | voorwaarde |
 | q042 | 4 | - | - | - | parafrase en voorbeeld |
 | q043 | 1 | 1 | 1 | 1 | voorbeeld valt onder de regel |
+| ga001 | 1 | 1 | 1 | 1 | lexical |
+| ga002 | 1 | 1 | 1 | 1 | paraphrase |
+| ga003 | 1 | 1 | 1 | 1 | lexical; ook in andere jaarpagina's |
+| ga004 | 4 | 1 | 2 | 1 | paraphrase |
+| ga005 | 1 | 1 | 1 | 1 | datumredenering |
+| ga006 | 3 | 1 | 2 | 1 | lexical |
+| ga007 | 1 | 1 | 1 | 1 | uitzondering op 'huisarts telt niet mee' |
+| ga008 | 1 | 1 | 1 | 1 | lexical |
+| ga009 | 1 | 1 | 1 | 1 | lexical |
+| ga010 | 1 | 1 | 1 | 1 | lexical |
+| ga011 | 1 | 1 | 1 | 1 | paraphrase: Spanje = Europa |
+| ga012 | 1 | 2 | 1 | 1 | lexical |
+| ga013 | 1 | 1 | 1 | 1 | lexical |
+| ga014 | 1 | 1 | 1 | 1 | paraphrase |
+| ga015 | 1 | 1 | 1 | 1 | lexical |
+| ga016 | 1 | 1 | 1 | 1 | paraphrase: gevangenis vs detentie |
+| ga017 | 1 | 1 | 1 | 1 | redenering: 12 jaar = minderjarig |
+| ga018 | 1 | 1 | 1 | 1 | lexical |
+| ga019 | 1 | 1 | 1 | 1 | paraphrase |
+| ga020 | 2 | 1 | 1 | 1 | voorwaarde |
+| ga021 | 1 | 1 | 1 | 2 | paraphrase: huis te klein vs gezin te groot |
+| ga022 | 1 | 1 | 1 | 1 | paraphrase |
+| ga023 | 1 | 1 | 1 | 1 | paraphrase |
+| ga024 | 1 | 1 | 1 | 1 | redenering: 150 <= 186 |
+| ga025 | 1 | 1 | 1 | 1 | lexical |
+| ga026 | 1 | 1 | 1 | 1 | lexical |
+| ga027 | 1 | 1 | 1 | 1 | lexical |
+| ga028 | 1 | 2 | 1 | 1 | lexical |
+| ga029 | 1 | 1 | 1 | 1 | uitzondering |
+| ga030 | 2 | 1 | 1 | 1 | lexical |
+| ga031 | 1 | 1 | 1 | 1 | lexical |
