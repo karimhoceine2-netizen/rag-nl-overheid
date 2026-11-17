@@ -88,7 +88,7 @@ Plain-language notes per upgrade: what I built, why, the trade-offs, and questio
 Logistic regression does not clearly beat the threshold. Both reach F1 0.64 in
 cross-validation; on the test set it is 0.76 against 0.73, a difference of one question with
 almost fully overlapping intervals. I did not switch the gate on: it blocks 3 of 18 answerable
-test questions, while the language model already refuses 7 of 8 unanswerable questions.
+test questions, while the language model already refuses 35 of 38 unanswerable questions (v2, dense).
 
 ### Why
 - The gate targets a real cost: every refused question is an LLM call not paid for.
@@ -120,3 +120,51 @@ test questions, while the language model already refuses 7 of 8 unanswerable que
 5. **How would you improve it?** More and more realistic questions, from real logs. And features
    that look at content, such as whether the reranker finds the asked-for year or amount in the
    top chunk.
+
+## Task 3: evaluating the RAG system
+
+### What I built
+- **Versioned question set.** v1 = the original 51 questions, v2 = v1 plus 61 reviewed
+  questions (112 in total, 38 unanswerable, many near-misses such as a missing year). Every
+  result stores the set version and a hash of the files.
+- **Retrieval metrics.** Hit@k and MRR@10 for BM25, dense, hybrid and hybrid + reranker.
+- **Answer metrics.** Groundedness by an LLM judge (Claude Sonnet), citation correctness (does a
+  cited chunk contain the labelled evidence quote; free and deterministic), correct abstention,
+  coverage, invalid outputs, latency and cost.
+- **Two configurations compared** on the same 112 questions: dense and hybrid + reranker.
+- **One command** (`python -m evals.report`) prints everything as one table.
+- **CI regression checks.** Retrieval runs live with floors. The paid answer eval is not
+  re-run; CI checks that the stored results belong to the current question set, recomputes
+  citation correctness and compares with floors.
+- **Manual spot check** of 11 judge verdicts against the sources.
+
+### Result
+Dense: grounded 72/74, citation correct 71/72, correct abstention 35/38, 2.3 s per answer.
+Reranker: grounded 72/75, citation correct 69/69, correct abstention 31/38, 3.5 s per answer.
+Dense stays the default. The judge agreed with my check on 10 of 11 verdicts; the one
+disagreement was the judge being too strict.
+
+### Trade-offs
+- **LLM judge.** Cheap and scalable, but it can be wrong and only checks support, not whether
+  the question was answered. I added a deterministic metric (citation correctness) and a
+  manual spot check instead of trusting it blindly.
+- **Strict abstention metric.** A "soft refusal" (says the source lacks the fact, then adds
+  related info) counts as answered. I kept the metric as defined and reported it as a lower
+  bound rather than changing it after seeing the results.
+- **No paid calls in CI.** That keeps CI free and deterministic, but means answer quality is only
+  re-measured when someone runs the eval by hand.
+- **Questions written with knowledge of the corpus.** v2 scores are higher than v1 and probably
+  higher than for real users. Real questions from logs would be the next step.
+
+### Likely interview questions
+1. **What is the difference between Hit@k and MRR?** Hit@k asks whether the right chunk is in
+   the top k at all; MRR also rewards putting it higher (1/rank of the first hit).
+2. **How do you know your LLM judge is right?** I don't fully; I checked a sample by hand
+   (10/11 agreed) and added a metric that needs no judge.
+3. **Why label by URL plus quote instead of chunk id?** The labels survive re-chunking: a chunk
+   counts as relevant if it comes from the right page and contains the quote.
+4. **How do you stop quality from silently getting worse?** CI floors on retrieval, and a check
+   that stored answer results match the current questions and floors.
+5. **Why didn't the reranker win?** It ranks better (MRR 0.897 vs 0.864) but answered more
+   unanswerable questions and was slower. A better ranking metric does not automatically give
+   a better end result, so you measure the whole pipeline.

@@ -5,39 +5,37 @@ De evaluatie vergelijkt vier manieren om relevante tekst op te halen. De API geb
 dense retrieval en geeft per bewering bronverwijzingen terug. Bij onvoldoende informatie geeft
 het systeem aan dat het antwoord onbekend is.
 
+## Evaluatie in één tabel
+
+```bash
+uv run python -m evals.report
+```
+
+Deze opdracht print alle resultaten zonder API-kosten. Alles is gemeten op vragenset **v2**
+(112 nagekeken vragen: 74 beantwoordbaar, 38 onbeantwoordbaar), 130 documenten en
+210 fragmenten. De vragensets hebben een versie: elk resultaat bewaart de versie en een hash
+van de vragenbestanden ([evals/questions.py](evals/questions.py)).
+
 ## Retrievalresultaten
 
 | Methode | Hit@1 | Hit@3 | Hit@5 | MRR@10 | Gemiddeld ms per vraag |
 |---|---:|---:|---:|---:|---:|
-| BM25 | 0,651 | 0,837 | 0,930 | 0,756 | 0,6 |
-| Dense | 0,651 | 0,930 | 0,977 | 0,790 | 22,4 |
-| Hybrid (RRF) | 0,651 | 0,907 | 0,907 | 0,779 | 24,0 |
-| Hybrid + reranker | 0,744 | 0,907 | 0,930 | 0,834 | 1645,5 |
-
-Deze run gebruikte 43 beantwoordbare vragen die de projecteigenaar had goedgekeurd,
-130 documenten en 210 fragmenten. De latencies zijn gemeten op een Apple Silicon CPU.
-De [volledige run](evals/results/retrieval.md) bevat de reproduceeropdracht, het commit-ID,
-de modellen en de rang per vraag.
+| BM25 | 0,743 | 0,892 | 0,959 | 0,825 | 0,5 |
+| Dense | 0,770 | 0,959 | 0,986 | 0,864 | 10,4 |
+| Hybrid (RRF) | 0,770 | 0,946 | 0,946 | 0,858 | 10,9 |
+| Hybrid + reranker | 0,838 | 0,946 | 0,959 | 0,897 | 1128,0 |
 
 Hit@k meet het aandeel vragen waarvoor de top k een relevant fragment bevat. MRR@10 beloont
 een hogere positie van het eerste relevante fragment. Een fragment telt als relevant als
-zowel de bron-URL als het gelabelde citaat overeenkomen.
+zowel de bron-URL als het gelabelde citaat overeenkomen. De latencies zijn gemeten op een
+Apple Silicon CPU. De [volledige run](evals/results/retrieval.md) bevat de reproduceeropdracht,
+het commit-ID, de modellen en de rang per vraag.
 
-De reranker behaalde de hoogste Hit@1 en MRR@10. Dense heeft de hoogste Hit@3 en Hit@5
-en blijft de standaard voor de API vanwege de lagere latency dan de reranker. De scores
-meten of het specifiek gelabelde fragment is opgehaald. Een andere pagina kan dezelfde
-informatie bevatten. De resultaten gelden voor deze vraagset en deze momentopname.
-
-```bash
-uv run --locked python -m evals.retrieval_eval --reviewed-only --out-dir logs/retrieval
-uv run --locked python -m evals.retrieval_eval \
-  --reviewed-only --thresholds evals/thresholds.json --out-dir logs/ci-retrieval
-```
-
-GitHub Actions draait bij iedere push en pull request de tests, de retrievalvergelijking en
-een starttest met Docker Compose. De retrievalcontrole gebruikt voor iedere methode de ondergrenzen voor
-Hit@5 en MRR@10 uit [thresholds.json](evals/thresholds.json). CI gebruikt de goedgekeurde
-vraagset en bewaart het rapport als workflow-artifact.
+De reranker haalt de hoogste Hit@1 en MRR@10, dense de hoogste Hit@3 en Hit@5. Dense blijft
+de standaard voor de API: de reranker kost ruim een seconde per vraag. Op vragenset v1
+(43 beantwoordbare vragen) was de volgorde hetzelfde, met lagere scores (dense Hit@5 0,977,
+reranker MRR@10 0,834). De 61 nieuwe vragen van v2 zijn geschreven met kennis van het corpus
+en zijn daardoor waarschijnlijk makkelijker dan echte gebruikersvragen.
 
 ## Lokaal starten
 
@@ -111,26 +109,45 @@ GCP_PROJECT=jouw-project-id ./scripts/deploy_cloud_run.sh
 
 ## Antwoorden beoordelen
 
-| Metriek | Uitkomst |
-|---|---:|
-| Door de LLM-jury als onderbouwd beoordeeld | 39 van 42 |
-| Terecht afgezien van een antwoord | 7 van 8 |
-| Beantwoordbare vragen met een antwoord | 41 van 43 |
-| Ongeldige antwoorden | 1 |
-| Ongeldige juryoordelen | 0 |
+Twee configuraties op dezelfde 112 vragen, met Claude Haiku als generator en Claude Sonnet
+als jury:
 
-Dense retrieval leverde de bronfragmenten. De LLM-jury beoordeelde de onderbouwing van de
-gegeven antwoorden aan de hand van hun citaten. Dekking meet het aandeel beantwoordbare
-vragen waarop een antwoord volgde. Open het [rapport per vraag](evals/results/answer_eval.json)
-voor de antwoordtekst, bronverwijzingen en juryoordelen. De [handmatige controle](evals/results/manual_review.md)
-legt voorbeelden en fouten naast de opgeslagen bronfragmenten. Juryoordelen vragen om
-handmatige steekproeven.
+| Metriek | Dense (top 5) | Hybrid + reranker (top 5) |
+|---|---:|---:|
+| Door de LLM-jury als onderbouwd beoordeeld | 72 van 74 | 72 van 75 |
+| Citatie correct (een geciteerde bron bevat het gelabelde citaat) | 71 van 72 | 69 van 69 |
+| Terecht geweigerd bij onbeantwoordbare vragen | 35 van 38 | 31 van 38 |
+| Beantwoordbare vragen met een antwoord | 72 van 74 | 69 van 74 |
+| Ongeldige antwoorden | 3 | 4 |
+| Seconden per antwoord | 2,3 | 3,5 |
+| Kosten generator + jury (USD) | 0,07 + 0,50 | 0,08 + 0,54 |
+
+Dense weigert vaker terecht, beantwoordt meer vragen en is sneller; de reranker scoort iets
+beter op citaties. Dense blijft daarom de standaard. Waarom de reranker vaker antwoordt op
+onbeantwoordbare vragen is niet gemeten.
+
+**Grenzen van de jury.** Een LLM-jury kan te streng of te mild zijn, en meet alleen of
+beweringen in de geciteerde bron staan, niet of de vraag beantwoord is. Daarom is er ook
+citatie-correctheid: die is gratis te berekenen en vond een antwoord dat de jury onderbouwd
+vond maar de vraag niet beantwoordde. In de [handmatige controle](evals/results/manual_review_v2.md)
+klopten 10 van de 11 gecontroleerde juryoordelen; het ene verschil was een te strenge jury.
+De weigerscore is een ondergrens: alle 8 beantwoorde onbeantwoordbare vragen zeiden eerst dat
+de bronnen het gevraagde niet noemen, maar kregen de status `answered`.
 
 ```bash
-uv run --env-file .env python -m evals.answer_eval --reviewed-only --out logs/answer_eval_final.json
+uv run --env-file .env python -m evals.answer_eval --stage dense --out evals/results/answer_eval_dense.json
+uv run --env-file .env python -m evals.answer_eval --stage rerank --out evals/results/answer_eval_rerank.json
 ```
 
-Deze opdracht gebruikt de betaalde Anthropic API.
+Deze opdrachten gebruiken de betaalde Anthropic API (samen ongeveer $1,20 voor deze run).
+
+**CI.** GitHub Actions draait bij iedere push de tests, de retrievalvergelijking met
+ondergrenzen uit [thresholds.json](evals/thresholds.json) en een starttest met Docker Compose.
+De betaalde antwoordevaluatie draait niet in CI. In plaats daarvan controleert
+`python -m evals.report --check` dat de opgeslagen antwoordresultaten nog bij de huidige
+vragenset horen, berekent het de citatie-correctheid opnieuw en toetst het de scores aan
+[answer_thresholds.json](evals/answer_thresholds.json). Wie vragen wijzigt zonder de evaluatie
+opnieuw te draaien, laat CI falen.
 
 ## Antwoordbaarheid voorspellen
 
@@ -154,8 +171,8 @@ waarbij retrieval de juiste pagina vindt, maar het gevraagde feit ontbreekt, zoa
 percentage voor 2027 op een pagina over 2026. Retrievalscores zien dat verschil niet.
 
 De gate staat daarom niet aan in de API. Hij blokkeert op de testset 3 van de 18
-beantwoordbare vragen, terwijl het taalmodel nu al 7 van de 8 onbeantwoordbare vragen terecht
-weigert. Het getrainde model staat als JSON in `models/answerability_gate.json` en laadt via
+beantwoordbare vragen, terwijl het taalmodel met dense retrieval al 35 van de 38 onbeantwoordbare
+vragen terecht weigert. Het getrainde model staat als JSON in `models/answerability_gate.json` en laadt via
 `AnswerabilityGate` in `src/rag/gate.py`. Alle cijfers staan in
 [evals/results/answerability.md](evals/results/answerability.md). Hoe de labels tot stand
 kwamen, staat in [DATA.md](DATA.md).
