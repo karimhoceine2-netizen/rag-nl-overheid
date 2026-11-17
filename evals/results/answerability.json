@@ -1,0 +1,382 @@
+{
+  "meta": {
+    "generated_at": "2026-11-17T09:58:47+00:00",
+    "git_commit": "abdae86",
+    "command": "uv run python -m evals.answerability",
+    "n_questions": 112,
+    "n_answerable": 74,
+    "n_unanswerable": 38,
+    "n_train": 84,
+    "n_test": 28,
+    "seed": 42,
+    "features": [
+      "dense_top1",
+      "dense_gap",
+      "bm25_top1",
+      "bm25_gap"
+    ],
+    "dense_threshold_on_train": 0.8702945709228516
+  },
+  "cv": {
+    "majority": {
+      "precision_unanswerable": [
+        0.0,
+        0.0
+      ],
+      "recall_unanswerable": [
+        0.0,
+        0.0
+      ],
+      "f1_unanswerable": [
+        0.0,
+        0.0
+      ],
+      "balanced_accuracy": [
+        0.5,
+        0.0
+      ],
+      "answerable_wrongly_blocked": [
+        0.0,
+        0.0
+      ]
+    },
+    "dense_threshold": {
+      "precision_unanswerable": [
+        0.6319047619047619,
+        0.17829438827088442
+      ],
+      "recall_unanswerable": [
+        0.6746666666666666,
+        0.2428131426060423
+      ],
+      "f1_unanswerable": [
+        0.6380950160950161,
+        0.19901679787555843
+      ],
+      "balanced_accuracy": [
+        0.7415757575757576,
+        0.1359126076366742
+      ],
+      "answerable_wrongly_blocked": [
+        0.1915151515151515,
+        0.09922842834458044
+      ]
+    },
+    "logistic": {
+      "precision_unanswerable": [
+        0.5941269841269841,
+        0.17459166628740286
+      ],
+      "recall_unanswerable": [
+        0.7226666666666667,
+        0.17249025737382645
+      ],
+      "f1_unanswerable": [
+        0.6387776667776668,
+        0.14553018182210756
+      ],
+      "balanced_accuracy": [
+        0.7266363636363635,
+        0.11608842929412888
+      ],
+      "answerable_wrongly_blocked": [
+        0.26939393939393935,
+        0.14853245989920796
+      ]
+    }
+  },
+  "test": {
+    "majority": {
+      "scores": {
+        "precision_unanswerable": 0.0,
+        "recall_unanswerable": 0.0,
+        "f1_unanswerable": 0.0,
+        "balanced_accuracy": 0.5,
+        "answerable_wrongly_blocked": 0.0
+      },
+      "ci_f1_unanswerable": [
+        0.0,
+        0.0
+      ],
+      "confusion": [
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          18
+        ]
+      ],
+      "errors": [
+        {
+          "id": "gu007",
+          "question": "Hoe lang is de gemiddelde wachttijd voor een sociale huurwoning in Rotterdam?",
+          "answerable": false,
+          "dense_top1": 0.854,
+          "dense_gap": 0.003,
+          "bm25_top1": 12.614,
+          "bm25_gap": 2.211
+        },
+        {
+          "id": "u008",
+          "question": "Wat kost de goedkoopste basispolis van zorgverzekeraar CZ in 2027 per maand?",
+          "answerable": false,
+          "dense_top1": 0.864,
+          "dense_gap": 0.002,
+          "bm25_top1": 7.679,
+          "bm25_gap": 0.427
+        },
+        {
+          "id": "gu003",
+          "question": "Wat is het telefoonnummer van de Uitvoeringsorganisatie Herstel Toeslagen?",
+          "answerable": false,
+          "dense_top1": 0.899,
+          "dense_gap": 0.037,
+          "bm25_top1": 17.262,
+          "bm25_gap": 3.554
+        },
+        {
+          "id": "gu021",
+          "question": "Wat is de gemiddelde huur van een studentenkamer in Groningen?",
+          "answerable": false,
+          "dense_top1": 0.826,
+          "dense_gap": 0.009,
+          "bm25_top1": 5.651,
+          "bm25_gap": 0.251
+        },
+        {
+          "id": "gu027",
+          "question": "Wat kost een ambulancerit als ik die zelf moet betalen?",
+          "answerable": false,
+          "dense_top1": 0.859,
+          "dense_gap": 0.001,
+          "bm25_top1": 3.302,
+          "bm25_gap": 0.136
+        },
+        {
+          "id": "gu011",
+          "question": "Met hoeveel procent mag de huur van een woonbootligplaats in 2027 maximaal stijgen?",
+          "answerable": false,
+          "dense_top1": 0.897,
+          "dense_gap": 0.021,
+          "bm25_top1": 15.996,
+          "bm25_gap": 7.753
+        },
+        {
+          "id": "gu015",
+          "question": "Wat is het minimumloon voor een 18-jarige in 2026?",
+          "answerable": false,
+          "dense_top1": 0.862,
+          "dense_gap": 0.007,
+          "bm25_top1": 6.022,
+          "bm25_gap": 0.238
+        },
+        {
+          "id": "gu024",
+          "question": "Wat is de huidige hypotheekrente voor starters?",
+          "answerable": false,
+          "dense_top1": 0.845,
+          "dense_gap": 0.008,
+          "bm25_top1": 4.946,
+          "bm25_gap": 1.018
+        },
+        {
+          "id": "gu016",
+          "question": "Hoe vraag ik een nieuwe DigiD aan als ik mijn wachtwoord kwijt ben?",
+          "answerable": false,
+          "dense_top1": 0.822,
+          "dense_gap": 0.002,
+          "bm25_top1": 5.71,
+          "bm25_gap": 0.245
+        },
+        {
+          "id": "gu013",
+          "question": "Hoeveel huurtoeslag krijg ik per maand bij een kale huur van \u20ac 650 en een inkomen van \u20ac 24.000?",
+          "answerable": false,
+          "dense_top1": 0.866,
+          "dense_gap": 0.001,
+          "bm25_top1": 13.219,
+          "bm25_gap": 0.892
+        }
+      ]
+    },
+    "dense_threshold": {
+      "scores": {
+        "precision_unanswerable": 0.6666666666666666,
+        "recall_unanswerable": 0.8,
+        "f1_unanswerable": 0.7272727272727273,
+        "balanced_accuracy": 0.788888888888889,
+        "answerable_wrongly_blocked": 0.2222222222222222
+      },
+      "ci_f1_unanswerable": [
+        0.47058823529411764,
+        0.9090909090909091
+      ],
+      "confusion": [
+        [
+          8,
+          2
+        ],
+        [
+          4,
+          14
+        ]
+      ],
+      "errors": [
+        {
+          "id": "gu003",
+          "question": "Wat is het telefoonnummer van de Uitvoeringsorganisatie Herstel Toeslagen?",
+          "answerable": false,
+          "dense_top1": 0.899,
+          "dense_gap": 0.037,
+          "bm25_top1": 17.262,
+          "bm25_gap": 3.554
+        },
+        {
+          "id": "ga019",
+          "question": "Wie krijgt de huurwoning meestal als de reactietermijn van de corporatie voorbij is?",
+          "answerable": true,
+          "dense_top1": 0.864,
+          "dense_gap": 0.01,
+          "bm25_top1": 13.365,
+          "bm25_gap": 5.216
+        },
+        {
+          "id": "ga026",
+          "question": "Wat is de maximale gevangenisstraf voor kraken zonder geweld?",
+          "answerable": true,
+          "dense_top1": 0.866,
+          "dense_gap": 0.06,
+          "bm25_top1": 21.681,
+          "bm25_gap": 20.285
+        },
+        {
+          "id": "ga001",
+          "question": "Wanneer wordt de aanvullende tegemoetkoming voor de gemiste basisbeurs uitbetaald?",
+          "answerable": true,
+          "dense_top1": 0.858,
+          "dense_gap": 0.031,
+          "bm25_top1": 21.04,
+          "bm25_gap": 10.697
+        },
+        {
+          "id": "gu011",
+          "question": "Met hoeveel procent mag de huur van een woonbootligplaats in 2027 maximaal stijgen?",
+          "answerable": false,
+          "dense_top1": 0.897,
+          "dense_gap": 0.021,
+          "bm25_top1": 15.996,
+          "bm25_gap": 7.753
+        },
+        {
+          "id": "ga004",
+          "question": "Wie bepaalt hoeveel een uur kinderopvang kost?",
+          "answerable": true,
+          "dense_top1": 0.87,
+          "dense_gap": 0.004,
+          "bm25_top1": 15.242,
+          "bm25_gap": 0.048
+        }
+      ]
+    },
+    "logistic": {
+      "scores": {
+        "precision_unanswerable": 0.7272727272727273,
+        "recall_unanswerable": 0.8,
+        "f1_unanswerable": 0.7619047619047619,
+        "balanced_accuracy": 0.8166666666666667,
+        "answerable_wrongly_blocked": 0.16666666666666666
+      },
+      "ci_f1_unanswerable": [
+        0.5,
+        0.9411764705882353
+      ],
+      "confusion": [
+        [
+          8,
+          2
+        ],
+        [
+          3,
+          15
+        ]
+      ],
+      "errors": [
+        {
+          "id": "gu003",
+          "question": "Wat is het telefoonnummer van de Uitvoeringsorganisatie Herstel Toeslagen?",
+          "answerable": false,
+          "dense_top1": 0.899,
+          "dense_gap": 0.037,
+          "bm25_top1": 17.262,
+          "bm25_gap": 3.554
+        },
+        {
+          "id": "ga019",
+          "question": "Wie krijgt de huurwoning meestal als de reactietermijn van de corporatie voorbij is?",
+          "answerable": true,
+          "dense_top1": 0.864,
+          "dense_gap": 0.01,
+          "bm25_top1": 13.365,
+          "bm25_gap": 5.216
+        },
+        {
+          "id": "ga026",
+          "question": "Wat is de maximale gevangenisstraf voor kraken zonder geweld?",
+          "answerable": true,
+          "dense_top1": 0.866,
+          "dense_gap": 0.06,
+          "bm25_top1": 21.681,
+          "bm25_gap": 20.285
+        },
+        {
+          "id": "ga001",
+          "question": "Wanneer wordt de aanvullende tegemoetkoming voor de gemiste basisbeurs uitbetaald?",
+          "answerable": true,
+          "dense_top1": 0.858,
+          "dense_gap": 0.031,
+          "bm25_top1": 21.04,
+          "bm25_gap": 10.697
+        },
+        {
+          "id": "gu011",
+          "question": "Met hoeveel procent mag de huur van een woonbootligplaats in 2027 maximaal stijgen?",
+          "answerable": false,
+          "dense_top1": 0.897,
+          "dense_gap": 0.021,
+          "bm25_top1": 15.996,
+          "bm25_gap": 7.753
+        }
+      ]
+    }
+  },
+  "gate": {
+    "features": [
+      "dense_top1",
+      "dense_gap",
+      "bm25_top1",
+      "bm25_gap"
+    ],
+    "mean": [
+      0.8780016395307723,
+      0.01555853798275902,
+      16.106860389319497,
+      4.40790952092737
+    ],
+    "scale": [
+      0.026958123227524847,
+      0.01652823173952861,
+      7.800004539845357,
+      5.041270028449301
+    ],
+    "coef": [
+      1.1260497819130846,
+      0.0010734620722438097,
+      0.7628600425758536,
+      -0.28522240302716956
+    ],
+    "intercept": 0.3811848729085157,
+    "threshold": 0.5
+  }
+}
