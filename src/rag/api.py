@@ -3,6 +3,7 @@
 import logging
 import os
 import threading
+import time
 from collections.abc import AsyncIterator, Callable
 from contextlib import asynccontextmanager
 from typing import Annotated
@@ -44,11 +45,21 @@ class SearchHit(BaseModel):
 
 
 def default_retriever() -> Retriever:
+    started = time.perf_counter()
     # Imported here so the web server can start before torch is loaded.
     from rag.corpus import load_chunks
     from rag.dense_index import load_dense_retriever
 
-    return load_dense_retriever(load_chunks())
+    imported = time.perf_counter()
+    retriever = load_dense_retriever(load_chunks())
+    done = time.perf_counter()
+    # Printed (not logged) so the timings always reach Cloud Run's logs, which read stdout.
+    print(
+        f"startup timing: imports {imported - started:.1f}s, "
+        f"model + index {done - imported:.1f}s, total {done - started:.1f}s",
+        flush=True,
+    )
+    return retriever
 
 
 class Startup:
