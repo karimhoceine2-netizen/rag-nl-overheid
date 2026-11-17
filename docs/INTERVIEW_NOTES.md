@@ -66,3 +66,57 @@ Plain-language notes per upgrade: what I built, why, the trade-offs, and questio
 5. **How do you know the container works before deploying?** CI builds the image and starts it
    with Compose on every push, then calls the endpoints. Compose waits on the Docker healthcheck,
    so a container that starts but never becomes healthy fails the build.
+
+## Task 2: an answerability gate (ML fundamentals)
+
+### What I built
+- **A labelled dataset.** 112 reviewed questions (74 answerable, 38 unanswerable). Answerable
+  questions carry a source URL and a verbatim quote that a script checks; the label source is
+  documented in `DATA.md`.
+- **Features from retrieval.** Top score and the gap between the first two results, for dense
+  retrieval and BM25. They are already computed for every question, so they cost nothing.
+- **Baselines first.** Majority class, then a single threshold on the top dense score, then
+  logistic regression with standardised features and balanced class weights.
+- **Evaluation.** A stratified test set of 28 questions, touched once. 5x5 repeated stratified
+  cross-validation on the other 84. Precision, recall and F1 for the unanswerable class, a
+  confusion matrix, bootstrap 95% intervals and a table of every test error. Fixed seed 42.
+- **Model behind an interface.** The logistic regression is saved as JSON (weights, scaling,
+  threshold) and loaded by `AnswerabilityGate`; a test checks it gives the same probabilities as
+  scikit-learn.
+
+### Result
+Logistic regression does not clearly beat the threshold. Both reach F1 0.64 in
+cross-validation; on the test set it is 0.76 against 0.73, a difference of one question with
+almost fully overlapping intervals. I did not switch the gate on: it blocks 3 of 18 answerable
+test questions, while the language model already refuses 7 of 8 unanswerable questions.
+
+### Why
+- The gate targets a real cost: every refused question is an LLM call not paid for.
+- Logistic regression fits 84 training rows; anything bigger would overfit, and its weights are
+  easy to read and to ship as JSON without pickle.
+- Positive class = unanswerable, because catching those is the job; "answerable wrongly
+  blocked" is reported separately because that error hurts users most.
+
+### Trade-offs
+- **Small data.** 28 test questions give wide intervals, so I report them instead of a single
+  number, and use repeated cross-validation for model comparison.
+- **Labels written by Claude, reviewed by me.** Cheaper than writing 61 questions by hand, but
+  cleaner than real user questions, so real-world performance is probably lower.
+- **Features cannot see missing facts.** Most errors are questions where retrieval finds the
+  right page but the specific year or amount is missing. A better gate would need to read the
+  text, for example a cross-encoder or an LLM check, which brings back cost and latency.
+
+### Likely interview questions
+1. **Why start with a baseline?** Without it, "F1 0.76" means nothing. Here the baseline showed
+   the model adds almost nothing, which is the most important finding.
+2. **Why a separate test set when you already do cross-validation?** Cross-validation compares
+   models on the training part; the test set gives one untouched estimate at the end. If I tune
+   on the test set, its score is optimistic.
+3. **Why bootstrap intervals?** With 28 test questions one question changes F1 a lot. The
+   interval shows how much the score could move with a different sample.
+4. **Why not ship it, if F1 is 0.76?** Because of the cost of errors. Blocking a real question is
+   worse than paying a few cents for an LLM call, and the LLM already refuses most unanswerable
+   questions. Accuracy alone does not decide whether a model is useful.
+5. **How would you improve it?** More and more realistic questions, from real logs. And features
+   that look at content, such as whether the reranker finds the asked-for year or amount in the
+   top chunk.

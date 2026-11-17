@@ -45,6 +45,20 @@ always check the linked source page.
   Re-fetching (`uv run python -m rag.ingest --refresh`) may invalidate evidence quotes in
   `evals/questions.jsonl`; `check_labels` in the eval will report which ones.
 
+## Labels for the answerability gate
+- `evals/gate_questions.jsonl` (61 questions) plus the 51 reviewed questions in
+  `evals/questions.jsonl` form the gate dataset (112 questions, 74 answerable, 38 unanswerable).
+- Label = "a careful reader can answer this using only this corpus". Answerable questions carry
+  the source URL and a verbatim evidence quote; `check_labels` verifies every quote.
+- How the 61 new labels were made: Claude drafted them; a separate Claude pass checked every
+  answerable question against the full source page and searched the whole corpus for every
+  unanswerable one (57 correct, 4 unclear and rewritten). Karim then reviewed the full list with
+  evidence ([docs/gate_questions_review.md](docs/gate_questions_review.md)) on 2026-11-17 and
+  reported no errors, after which they were marked `reviewed`.
+- Known bias: the questions were written knowing the corpus, so they are cleaner than real user
+  questions. Unanswerable ones are deliberately near-domain (a missing year, amount or contact
+  detail) plus a few off-topic ones.
+
 ## Reproduce
 ```bash
 uv run python scripts/discover_sources.py   # optional: regenerate the URL list
