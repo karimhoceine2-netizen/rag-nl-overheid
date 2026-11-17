@@ -23,7 +23,14 @@ from typing import Literal, get_args
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, ValidationError
 
 from evals.metrics import first_relevant_rank, hit_at_k, mrr
-from evals.questions import QUESTIONS_PATH, Question, check_labels, is_relevant, load_questions
+from evals.questions import (
+    DEFAULT_SET,
+    QUESTION_SETS,
+    Question,
+    check_labels,
+    is_relevant,
+    load_question_set,
+)
 from rag.corpus import load_chunks, load_documents
 from rag.models import Chunk
 from rag.retrievers import (
@@ -177,7 +184,7 @@ def to_markdown(results: dict, details: list[dict], questions: list[Question]) -
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stages", default="all", help="comma-separated, or 'all'")
-    parser.add_argument("--questions", type=Path, default=QUESTIONS_PATH)
+    parser.add_argument("--set", choices=list(QUESTION_SETS), default=DEFAULT_SET)
     parser.add_argument("--reviewed-only", action="store_true")
     parser.add_argument("--out-dir", type=Path, default=RESULTS_DIR)
     parser.add_argument("--thresholds", type=Path, help="fail below the minimum retrieval scores")
@@ -201,10 +208,10 @@ def main() -> int:
             parser.error(f"missing thresholds for {', '.join(missing)}")
 
     chunks = load_chunks()
-    all_questions = load_questions(args.questions)
+    all_questions, set_info = load_question_set(args.set)
     problems = check_labels(all_questions, chunks)
     if problems:
-        print("Label problems; fix evals/questions.jsonl first:", *problems, sep="\n  ")
+        print("Label problems; fix the question files first:", *problems, sep="\n  ")
         return 1
 
     # Unanswerable questions have no expected source, so they don't count for retrieval.
@@ -227,6 +234,7 @@ def main() -> int:
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "git_commit": git_commit(),
         "command": " ".join(["uv run python -m evals.retrieval_eval", *sys.argv[1:]]),
+        **set_info,
         "n_docs": len(load_documents()),
         "n_chunks": len(chunks),
         "n_questions_scored": len(scored),

@@ -3,7 +3,9 @@
 import argparse
 import json
 import shlex
+import statistics
 import sys
+import time
 from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
@@ -12,7 +14,14 @@ import httpx
 from pydantic import BaseModel, ConfigDict, ValidationError
 
 from evals.metrics import first_relevant_rank
-from evals.questions import QUESTIONS_PATH, Question, check_labels, is_relevant, load_questions
+from evals.questions import (
+    DEFAULT_SET,
+    QUESTION_SETS,
+    Question,
+    check_labels,
+    is_relevant,
+    load_question_set,
+)
 from evals.retrieval_eval import STAGE_NAMES, build_retrievers, git_commit, model_names
 from rag.corpus import load_chunks
 from rag.generate import Answer, source_context
@@ -62,16 +71,33 @@ def judge_answer(judge: LLMClient, question: str, answer: Answer, chunks: list[C
     }
 
 
+def citation_correct(
+    answer: Answer, question: Question, chunks_by_id: dict[str, Chunk]
+) -> bool | None:
+    """Does at least one cited source contain the labelled evidence? None = not applicable.
+
+    Only defined for answerable questions that were answered: an abstention cites nothing.
+    Free to compute (no judge), so it can be re-checked on stored results.
+    """
+    if not question.answerable or answer.status != "answered":
+        return None
+    cited = (chunks_by_id.get(c.chunk_id) for c in answer.citations)
+    return any(chunk is not None and is_relevant(chunk, question) for chunk in cited)
+
+
 def _rate(count: int, total: int) -> dict:
     return {"count": count, "total": total, "rate": count / total if total else None}
 
 
 def evaluate_answers(
-    service: QueryService, judge: LLMClient, questions: list[Question]
+    service: QueryService, judge: LLMClient, questions: list[Question], chunks: list[Chunk]
 ) -> tuple[dict, list[dict]]:
+    chunks_by_id = {chunk.chunk_id: chunk for chunk in chunks}
     details = []
     for question in questions:
+        started = time.perf_counter()
         result = service.ask(question.question)
+        latency_ms = (time.perf_counter() - started) * 1000
         answer = result.answer
         judgment = (
             judge_answer(judge, question.question, answer, result.chunks)
@@ -90,6 +116,9 @@ def evaluate_answers(
                     result.chunks, lambda chunk, q=question: is_relevant(chunk, q)
                 ),
                 "response": answer.model_dump(),
+                "citation_correct": citation_correct(answer, question, chunks_by_id),
+                "latency_ms": round(latency_ms, 1),
+                "generation_cost_usd": result.usage.estimated_cost_usd if result.usage else 0.0,
                 "judgment": judgment,
             }
         )
@@ -107,6 +136,13 @@ def evaluate_answers(
         "answerable_coverage": _rate(
             sum(row["response"]["status"] == "answered" for row in answerable), len(answerable)
         ),
+        "citation_correctness": _rate(
+            sum(row["citation_correct"] is True for row in details),
+            sum(row["citation_correct"] is not None for row in details),
+        ),
+        "latency_ms_mean": statistics.mean(row["latency_ms"] for row in details),
+        "generation_cost_usd": sum(row["generation_cost_usd"] or 0.0 for row in details),
+        "judge_cost_usd": sum(j.get("estimated_cost_usd") or 0.0 for j in judgments),
         "invalid_answers": sum(row["response"]["status"] == "invalid_output" for row in details),
         "invalid_judgments": len(judgments) - len(verdicts),
     }
@@ -115,13 +151,13 @@ def evaluate_answers(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--questions", type=Path, default=QUESTIONS_PATH)
+    parser.add_argument("--set", choices=list(QUESTION_SETS), default=DEFAULT_SET)
     parser.add_argument("--stage", choices=STAGE_NAMES, default="dense")
     parser.add_argument("--reviewed-only", action="store_true")
     parser.add_argument("--out", type=Path, default=Path("logs/answer_eval.json"))
     args = parser.parse_args()
 
-    questions = load_questions(args.questions)
+    questions, set_info = load_question_set(args.set)
     if args.reviewed_only:
         questions = [question for question in questions if question.status == "reviewed"]
     if not questions:
@@ -142,7 +178,7 @@ def main() -> int:
         retrievers = build_retrievers([args.stage], chunks)
         service = QueryService(retrievers[args.stage], generator)
         try:
-            metrics, details = evaluate_answers(service, judge, questions)
+            metrics, details = evaluate_answers(service, judge, questions, chunks)
         except LLMError as exc:
             print(f"Answer evaluation stopped: {exc}", file=sys.stderr)
             return 1
@@ -163,6 +199,7 @@ def main() -> int:
                     *sys.argv[1:],
                 ]
             ),
+            **set_info,
             "retriever": args.stage,
             "retrieval_models": model_names(retrievers),
             "top_k": service.top_k,
