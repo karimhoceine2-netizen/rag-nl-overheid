@@ -88,17 +88,19 @@ werken `/health` en `/search`, en geeft `/ask` een 503 met uitleg. Voor antwoord
 `.env.example` naar `.env` en vul je `ANTHROPIC_API_KEY` in. De container draait als
 niet-rootgebruiker en heeft een healthcheck op `/health`. CI start de container op dezelfde
 manier en meldt de imagegrootte en het piekgeheugen in de samenvatting van de workflow.
-In [run 43938762665](https://github.com/karimhoceine2-netizen/rag-nl-overheid/actions/runs/43938762665)
-was de image 1900 MiB en het piekgeheugen 1226 MiB na het opstarten en één zoekvraag.
-Daarom krijgt de Cloud Run-dienst 2 GiB geheugen.
+De embeddings van het corpus worden bij het bouwen berekend en meegeleverd, zodat de container
+ze bij het opstarten niet opnieuw hoeft te berekenen.
+In [run 43966524373](https://github.com/karimhoceine2-netizen/rag-nl-overheid/actions/runs/43966524373)
+was de image 1903 MiB en het piekgeheugen 781 MiB na het opstarten en één zoekvraag.
+De Cloud Run-dienst krijgt 2 GiB geheugen, zodat er ruim marge is.
 
 ### Cloud Run
 
 De API draait op [Google Cloud Run](https://rag-nl-overheid-440512847068.europe-west4.run.app/docs).
 Probeer `POST /search` (gratis) of `POST /ask` (maximaal 50 vragen per dag) via
 **Try it out**. Zonder verkeer schaalt de dienst naar nul. Het eerste verzoek na een rustige
-periode kan daarom mislukken of lang duren terwijl de container opstart. Probeer het dan na
-een halve minuut opnieuw.
+periode wacht daarom op een koude start: op 17 november 2026 duurde dat 45 seconden, daarna
+duurde een zoekvraag 0,1 seconde. Krijg je toch een 503, probeer het dan zo opnieuw.
 
 [docs/DEPLOY.md](docs/DEPLOY.md) beschrijft de eenmalige setup, het deployscript, de
 kostenbegrenzing en het opruimen. De deploy zelf is één opdracht.
