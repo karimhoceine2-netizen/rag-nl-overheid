@@ -132,6 +132,38 @@ uv run --env-file .env python -m evals.answer_eval --reviewed-only --out logs/an
 
 Deze opdracht gebruikt de betaalde Anthropic API.
 
+## Antwoordbaarheid voorspellen
+
+Een klein model voorspelt uit de retrievalscores of het corpus een vraag kan beantwoorden.
+Zegt het nee, dan zou de API kunnen weigeren zonder een betaalde taalmodelaanroep. De
+features zijn de hoogste score en het verschil tussen de eerste twee resultaten, voor zowel
+dense retrieval als BM25. De dataset telt 112 nagekeken vragen: 74 beantwoordbaar en 38 niet.
+Daarvan zijn 28 vragen apart gehouden als testset, die één keer is gebruikt.
+
+| Model (testset, n = 28) | Precisie | Recall | F1 (95%-BI) | Beantwoordbaar onterecht geblokkeerd |
+|---|---:|---:|---:|---:|
+| Meest voorkomende klasse | 0,00 | 0,00 | 0,00 | 0 van 18 |
+| Drempel op dense-score | 0,67 | 0,80 | 0,73 (0,47-0,91) | 4 van 18 |
+| Logistische regressie | 0,73 | 0,80 | 0,76 (0,50-0,94) | 3 van 18 |
+
+Precisie, recall en F1 gaan over het herkennen van onbeantwoordbare vragen. In 5x5-voudige
+kruisvalidatie op de trainingsvragen scoren de drempel en de logistische regressie allebei een
+F1 van 0,64. **Het model verslaat de eenvoudige drempel dus niet aantoonbaar**: het verschil op
+de testset is één vraag en de intervallen overlappen bijna volledig. De meeste fouten zijn vragen
+waarbij retrieval de juiste pagina vindt, maar het gevraagde feit ontbreekt, zoals een
+percentage voor 2027 op een pagina over 2026. Retrievalscores zien dat verschil niet.
+
+De gate staat daarom niet aan in de API. Hij blokkeert op de testset 3 van de 18
+beantwoordbare vragen, terwijl het taalmodel nu al 7 van de 8 onbeantwoordbare vragen terecht
+weigert. Het getrainde model staat als JSON in `models/answerability_gate.json` en laadt via
+`AnswerabilityGate` in `src/rag/gate.py`. Alle cijfers staan in
+[evals/results/answerability.md](evals/results/answerability.md). Hoe de labels tot stand
+kwamen, staat in [DATA.md](DATA.md).
+
+```bash
+uv run python -m evals.answerability
+```
+
 ## Prompt-injectietests
 
 Synthetische documenten proberen het antwoord te sturen via opdrachten in de broninhoud.
