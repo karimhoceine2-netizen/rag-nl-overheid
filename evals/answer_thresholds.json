@@ -1,0 +1,12 @@
+{
+  "dense": {
+    "groundedness": 0.95,
+    "citation_correctness": 0.97,
+    "correct_abstention": 0.9
+  },
+  "rerank": {
+    "groundedness": 0.94,
+    "citation_correctness": 0.98,
+    "correct_abstention": 0.8
+  }
+}
